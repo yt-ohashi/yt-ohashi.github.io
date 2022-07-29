@@ -82,27 +82,27 @@
 <p>基本的にfor…ofで、indexが欲しいときはforEachを使った方が綺麗なんじゃないかなぁと思います。実際はどうなのかな…。</p>
 <h2 id="map-filter"><a href="#map-filter" class="headerlink" title="map,filter"></a>map,filter</h2><p>今回の開発で大活躍だったはずのmapとfilter。<br>既存コードが殆ど配列にpushやらしていたので、それに倣ってcommitしていました。<br>が、色々調べてるとこっちで書いた方が絶対良いよな…ということで、実装とテストが終わった後、空き時間でひたすら勉強がてら書き換えていました。<br>commitされるのはこっちじゃないけどね！ただ、書き換える前のコードをメンテするの大変だろうな…。実際配属されてコード読んでた時大変だったし。</p>
 <h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><p>配列の要素を1つずつ取り出して、関数を実行した後、実行後の配列を返す。<br>以下は要素を2倍して返しています。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4,5];</span><br><span class="line">const result = arr.map((value)=&gt;&#123;</span><br><span class="line">    value*2</span><br><span class="line">&#125;);`[2,4,6,8,10]</span><br><span class="line"></span><br><span class="line">`一行だけなら色々省略して書けます</span><br><span class="line">const result = arr.map(value=&gt;value*2);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4,5];</span><br><span class="line">const result = arr.map((value)=&gt;&#123;</span><br><span class="line">    value*2</span><br><span class="line">&#125;);//[2,4,6,8,10]</span><br><span class="line"></span><br><span class="line">`一行だけなら色々省略して書けます</span><br><span class="line">const result = arr.map(value=&gt;value*2);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>最初の初期化は、mapを書いてるときに必要になりました。<br>指定の数だけmap回して配列作りたいんだけど…。ってことで、以下のように書いてみると、これが回らない。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array(5).map((value)=&gt;&#123;</span><br><span class="line">    return &quot;なんかの処理&quot;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>Array(5)は要素を確保するだけで、中身は無いからmapが回らない。<br>ってことで、mapを回すときどうすりゃいいのかと調べた結果がこれ。<br>fill(0)で全部初期化して5回のループができる。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array(5).fill(0).map((value)=&gt;&#123;</span><br><span class="line">    return &quot;なんかの処理&quot;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>こんな書き方ができるんだなーって思ってた所、0での初期化ではなく、連番も欲しくなりました。<br>ということで、初期化で連番を生成して回すにはこう。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;value*2);</span><br><span class="line">[0, 2, 4, 6, 8]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;value*2);</span><br><span class="line">//[0, 2, 4, 6, 8]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>ただ、連番だけならmapはindexを持つので、そっちを使ってもいいかも。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const arr = Array(5).fill(0).map((_,index)=&gt;index);</span><br></pre></td></tr></table></figure>
 
 <p>1～の連番を生成したいなら、インクリメントをしたらOK。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;++value);</span><br><span class="line">[1, 2, 3, 4, 5]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;++value);</span><br><span class="line">//[1, 2, 3, 4, 5]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 <p>少しmapとは話はずれますが、forループを回すときにも便利に使えますね。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(const value of [...Array(5).keys()])&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>配列をひとつずつ取り出して、一致した要素の配列を返す。<br>こちらもとっても便利。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4,5];</span><br><span class="line">const result = arr.filter(value=&gt;value%2===0);</span><br><span class="line">[2, 4]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4,5];</span><br><span class="line">const result = arr.filter(value=&gt;value%2===0);</span><br><span class="line">//[2, 4]</span><br></pre></td></tr></table></figure>
 
 <p>filterとmapをつなげられるので、filterした結果にmapで何か処理ができます。（その逆も）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;value*2).filter(value=&gt;value&gt;5);</span><br><span class="line">[6,8]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(5).keys()].map(value=&gt;value*2).filter(value=&gt;value&gt;5);</span><br><span class="line">//[6,8]</span><br></pre></td></tr></table></figure>
 
 <h2 id="終わり"><a href="#終わり" class="headerlink" title="終わり"></a>終わり</h2><p>いっぱい書いて疲れた。<br>何か処理をして配列を生成したいなら、mapやfilterを！こっちの方が処理が明示的で読みやすい！<br>for文ならfor…ofかforEach！を心がけていきたいですね。  </p>
 
@@ -148,7 +148,7 @@
   <h3 class="title">タグ</h3>
   <ul class="entry">
   
-    <li><a href="/tags/javascript/">javascript</a><small>1</small></li>
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
   
     <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>1</small></li>
   
