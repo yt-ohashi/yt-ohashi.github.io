@@ -66,8 +66,8 @@
 <h2 id="素数判定"><a href="#素数判定" class="headerlink" title="素数判定"></a>素数判定</h2><p>現場で若手っぽい子が、課題で素数判定のプログラミングとか出たけどムズカスィ～って話してたのを盗み聞きしてたので、javascriptで書いてみます。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const sosuu = (num) =&gt; &#123;</span><br><span class="line">    const chk = [...Array(num).keys()].map(i=&gt;&#123;</span><br><span class="line">        i++;</span><br><span class="line">        return num % i === 0 ? 1 : 0</span><br><span class="line">    &#125;);</span><br><span class="line">    return chk.reduce((sum,value)=&gt;sum+value) === 2 ? &quot;素数&quot; : &quot;素数じゃない&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>引数を1から順番に割り切れるか調べて、0か1の配列返す。<br>1と自分は絶対割り切れるから、配列の中身全部足して2だったら素数。違ったら素数じゃない。<br>いけてると思うけど、これ0を入れたらエラーなっちゃうね…。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const sosuu = (num) =&gt; &#123;</span><br><span class="line">    const chk = [...Array(num).keys()].map(i=&gt;&#123;</span><br><span class="line">        i++;</span><br><span class="line">        return num % i === 0 ? 1 : 0</span><br><span class="line">    &#125;).filter(value=&gt;value===1);</span><br><span class="line">    return chk.length === 2 ? &quot;素数&quot; : &quot;素数じゃない&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>別に全部足さなくても、filterかけて長さが2だったら素数か。こっちだとエラーは出ません！以上！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const sosuu = (num) =&gt; [...Array(num).keys()]</span><br><span class="line">    .map(i=&gt;num % ++i === 0 ? 1 : 0)</span><br><span class="line">    .filter(value=&gt;value===1)</span><br><span class="line">    .length === 2 ? &quot;素数&quot; : &quot;素数じゃない&quot;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>別に全部足さなくても、filterかけて長さが2だったら素数か。こっちだとエラーは出ません！ついでに繋げてみた！以上！</p>
 
       
     </div>
@@ -111,7 +111,7 @@
   <h3 class="title">タグ</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Java/">Java</a><small>1</small></li>
+    <li><a href="/tags/Java/">Java</a><small>2</small></li>
   
     <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
   

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>関数型インターフェース Function | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="関数型インターフェースとは">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="関数型インターフェース Function"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-関数型インターフェース" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-03T13:24:13.000Z"><a href="/2022/08/03/%E9%96%A2%E6%95%B0%E5%9E%8B%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9/">2022-08-03</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">関数型インターフェース Function</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="眠い"><a href="#眠い" class="headerlink" title="眠い"></a>眠い</h2><p>6月から毎日5:30におきてますが、8月に入って5時に起きることが増えてきました。目覚ましかけてないのに。<br>勤務中や今も眠いったらありゃしない。健康的な良いのかな…。</p>
+<h2 id="関数型インターフェース"><a href="#関数型インターフェース" class="headerlink" title="関数型インターフェース"></a>関数型インターフェース</h2><p>ラムダ式やStream、メソッド参照をやっていくうえでよく出てくる関数型インターフェースのお勉強。<br><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/util/function/package-summary.html">パッケージjava.util.function</a>  </p>
+<blockquote>
+<p>関数型インタフェースは、ラムダ式やメソッド参照のターゲットとなる型を提供します。 各関数型インタフェースには、その関数型インタフェースの関数メソッドと呼ばれる単一の抽象メソッドが含まれており、ラムダ式のパラメータや戻り値の型のマッチングや適応は、そのメソッドに対して行われます。</p>
+</blockquote>
+<p>ってことで、抽象メソッドが1個があるインターフェースが関数型インターフェースと呼ばれるものらしい。</p>
+<blockquote>
+<p>抽象メソッドは、処理を書かずに継承先にオーバーライドを強制するメソッド</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloInterface&#123;</span><br><span class="line">    public abstract void Hello(String text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HelloInterClass test = new HelloInterClass() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void Hello(String text) &#123;</span><br><span class="line">                System.out.println(&quot;Hello&quot; + text);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        test.Hello(&quot;Hello&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// Hello Hello</span><br></pre></td></tr></table></figure>
+
+<h2 id="Java関数型インターフェース"><a href="#Java関数型インターフェース" class="headerlink" title="Java関数型インターフェース"></a>Java関数型インターフェース</h2><p>関数型インタフェースを使う時、わざわざ毎回クラスを作るのは面倒ですが、Javaにはモジュールが用意されています。</p>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/util/function/Function.html">Function</a></h2><blockquote>
+<p>型パラメータ:<br>T - 関数の入力の型<br>R - 関数の結果の型  </p>
+</blockquote>
+<p>引数と結果の型を書いて変数宣言をして、オーバーライドすると受け取って処理結果を返すことができそうですね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Function&lt;String,Integer&gt; func = new Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(String s) &#123;</span><br><span class="line">                return s.length();</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        System.out.println(func.apply(&quot;おはし&quot;));</span><br><span class="line">        // 3</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文字列を受け取って長さを返すだけ。<br>ただ、これを宣言の時に毎回書くのは中々…という所で、ラムダ式の出番が出てきますが、それはまた次回。もう眠い・・・。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>2</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
