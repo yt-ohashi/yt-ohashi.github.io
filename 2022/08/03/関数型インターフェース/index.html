@@ -62,7 +62,7 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h2 id="眠い"><a href="#眠い" class="headerlink" title="眠い"></a>眠い</h2><p>6月から毎日5:30におきてますが、8月に入って5時に起きることが増えてきました。目覚ましかけてないのに。<br>勤務中や今も眠いったらありゃしない。健康的な良いのかな…。</p>
+        <h2 id="眠い"><a href="#眠い" class="headerlink" title="眠い"></a>眠い</h2><p>6月から毎日5:30におきてますが、8月に入って5時に起きることが増えてきました。目覚ましかけてないのに。<br>勤務中や今も眠いったらありゃしない。健康的で良いのかな…。</p>
 <h2 id="関数型インターフェース"><a href="#関数型インターフェース" class="headerlink" title="関数型インターフェース"></a>関数型インターフェース</h2><p>ラムダ式やStream、メソッド参照をやっていくうえでよく出てくる関数型インターフェースのお勉強。<br><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/util/function/package-summary.html">パッケージjava.util.function</a>  </p>
 <blockquote>
 <p>関数型インタフェースは、ラムダ式やメソッド参照のターゲットとなる型を提供します。 各関数型インタフェースには、その関数型インタフェースの関数メソッドと呼ばれる単一の抽象メソッドが含まれており、ラムダ式のパラメータや戻り値の型のマッチングや適応は、そのメソッドに対して行われます。</p>
@@ -71,7 +71,7 @@
 <blockquote>
 <p>抽象メソッドは、処理を書かずに継承先にオーバーライドを強制するメソッド</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloInterface&#123;</span><br><span class="line">    public abstract void Hello(String text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HelloInterClass test = new HelloInterClass() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void Hello(String text) &#123;</span><br><span class="line">                System.out.println(&quot;Hello&quot; + text);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        test.Hello(&quot;Hello&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// Hello Hello</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloInterface&#123;</span><br><span class="line">    public abstract void Hello(String text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HelloInterface test = new HelloInterface() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void Hello(String text) &#123;</span><br><span class="line">                System.out.println(&quot;Hello&quot; + text);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        test.Hello(&quot;Hello&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// Hello Hello</span><br></pre></td></tr></table></figure>
 
 <h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/util/function/Function.html">Function</a></h2><blockquote>
 <p>型パラメータ:<br>T - 関数の入力の型<br>R - 関数の結果の型  </p>
@@ -122,7 +122,7 @@
   <h3 class="title">タグ</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Java/">Java</a><small>2</small></li>
+    <li><a href="/tags/Java/">Java</a><small>3</small></li>
   
     <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
   

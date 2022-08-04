@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java ラムダ式 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="関数型インターフェースとは">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java ラムダ式"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Java-ラムダ式" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-04T12:44:47.000Z"><a href="/2022/08/04/Java-%E3%83%A9%E3%83%A0%E3%83%80%E5%BC%8F/">2022-08-04</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Java ラムダ式</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="足が痛い"><a href="#足が痛い" class="headerlink" title="足が痛い"></a>足が痛い</h2><p>3月から毎朝起きて2kmランニング、休日は10kmランニングする生活をしていましたが、日曜からダッシュを取り入れました。<br>1kmぐらい走った後、100mダッシュを4本、また1km走って戻る。みたいな。<br>以来、めちゃくちゃ太ももが痛くて動けません。<br>月、火、水は1.8kmランニング、最後200mペースアップみたいな感じで走ってたけど、今日は痛すぎて休養日にしました。<br>前は全く走ってなかったのに、今走らないとめちゃくちゃ悪いことしたみたいな気になってる。良い傾向か…？</p>
+<h2 id="ラムダ式"><a href="#ラムダ式" class="headerlink" title="ラムダ式"></a>ラムダ式</h2><p><a href="https://yt-ohashi.github.io/2022/08/03/%E9%96%A2%E6%95%B0%E5%9E%8B%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9/">前回</a>はJavaの関数型インターフェース、Functionについて書きました。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Function&lt;String,Integer&gt; func = new Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(String s) &#123;</span><br><span class="line">                return s.length();</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        System.out.println(func.apply(&quot;おはし&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>こんなやつ。でも、これを毎回書くのは大変ですね。<br>ってことで、Javaは簡潔に記述できるラムダ式が導入されています。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Function&lt;String,Integer&gt; funcLambda = (s) -&gt;&#123;</span><br><span class="line">            return s.length();</span><br><span class="line">        &#125;;</span><br><span class="line">        System.out.println(funcLambda.apply(&quot;おはし&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>はい！6行あったのが3行に！</p>
+<ul>
+<li>インターフェース名を削除　new Function&lt;String, Integer&gt;()</li>
+<li>アクセス修飾子を削除　public</li>
+<li>戻り値の型を削除 Integer</li>
+<li>メソッド名を削除 apply</li>
+<li>引数の型を削除　(String )</li>
+</ul>
+<p>もちろん、抽象メソッドが何個もあったらこんなに削除することはできません。<br>そんな状態でメソッド名を削除しちゃったら、何をオーバーライドするかわからないしね。<br>だから、関数型インターフェースは抽象メソッドが1個しかない前提なのかな。  </p>
+<p>また、処理が一行だけの場合は、returnと{}も削除できます。この辺はjavascriptのアロー関数と似てますね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Function&lt;String,Integer&gt; funcLambda = (s) -&gt; s.length();</span><br><span class="line">        System.out.println(funcLambda.apply(&quot;おはし&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6行あったのが1行に！ラムダ式、なんて便利な子…。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>3</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
