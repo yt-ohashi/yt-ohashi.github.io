@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ラムダ式とStreamAPI | おはしブログ</title>
+  <title>Java-ラムダ式とStreamAPIと | おはしブログ</title>
   <meta name="author" content="ohashi">
+  
+  <meta name="description" content="JavaのStreamAPIについて">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="ラムダ式とStreamAPI"/>
+  <meta property="og:title" content="Java-ラムダ式とStreamAPIと"/>
   <meta property="og:site_name" content="おはしブログ"/>
 
   
@@ -54,19 +56,38 @@
       
       
   
-    <h1 class="p-name title" itemprop="headline name">ラムダ式とStreamAPI</h1>
+    <h1 class="p-name title" itemprop="headline name">Java-ラムダ式とStreamAPIと</h1>
   
 
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        
+        <h2 id="振り返り"><a href="#振り返り" class="headerlink" title="振り返り"></a>振り返り</h2><p>前回、前々回で関数型インターフェースとラムダ式について書きました。<br>そしてその前に書いたStreamAPIは、この2つと関係が深いので、ここでもう1回振り返ります。</p>
+<h2 id="StreamAPI-map処理"><a href="#StreamAPI-map処理" class="headerlink" title="StreamAPI map処理"></a>StreamAPI map処理</h2><p>以下はStreamAPIを使った基本的な処理。<br>Integer型の引数を受け取って、HelloをつけてString型を返すという使いどころ満載な処理です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;Integer&gt; data = Arrays.asList(1,2,3,4,5);//リストを宣言</span><br><span class="line">        List&lt;String&gt; Hello = data.stream().map(i-&gt;&quot;Hello&quot;+i.toString()).toList();</span><br><span class="line">        System.out.println(Hello);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;/[Hello1, Hello2, Hello3, Hello4, Hello5]</span><br></pre></td></tr></table></figure>
+
+<p>このMAPについてドキュメントを読むと…</p>
+<blockquote>
+<p><R> Stream<R> map(Function&lt;? super T,? extends R&gt; mapper)<br>このストリームの要素に指定された関数を適用した結果から構成されるストリームを返します。これは中間操作です。<br>型パラメータ:R - 新しいストリームの要素の型<br>パラメータ:mapper - 各要素に適用する非干渉でステートレスな関数<br>戻り値:新しいストリーム</p>
+</blockquote>
+<p>Functionを使ってますね…。ってことで、上記のコードがこんな感じで書き換えられそうです。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;Integer&gt; data = Arrays.asList(1,2,3,4,5);//リストを宣言</span><br><span class="line">        List&lt;String&gt; Hello = data.stream().map(new Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(Integer num)&#123;</span><br><span class="line">                return &quot;Hello&quot; + num.toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).toList();</span><br><span class="line">        System.out.println(Hello);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;//[Hello1, Hello2, Hello3, Hello4, Hello5]</span><br></pre></td></tr></table></figure>
+<p>ひゃー長い。</p>
+<h2 id="Functionを入れてみる。"><a href="#Functionを入れてみる。" class="headerlink" title="Functionを入れてみる。"></a>Functionを入れてみる。</h2><p>mapの中にはFunctionを代入したら良いので、事前にFunctionを宣言しててもできそうですね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;Integer&gt; data = Arrays.asList(1,2,3,4,5);//リストを宣言</span><br><span class="line">        Function&lt;Integer,String&gt; funcHello = (i) -&gt; &quot;Hello&quot; + i.toString();</span><br><span class="line">        List&lt;String&gt; Hello = data.stream().map(funcHello).toList();</span><br><span class="line">        System.out.println(Hello);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mapはfunctionを受け取って、applyを実行して結果を返してることがわかりました。<br>正直、ちゃんと調べる前まで、「i-&gt; “Hello”+i.toString()」の処理は、iで順番に引数を受け取って処理した結果を返してるぐらいの認識でした。<br>分解して調べることで、Functionを期待してることやラムダ式等、理解を深めることができてよかったです。めでたし。</p>
+
       
     </div>
     <footer>
       
         
         
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
@@ -98,7 +119,7 @@
   <h3 class="title">タグ</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Java/">Java</a><small>3</small></li>
+    <li><a href="/tags/Java/">Java</a><small>4</small></li>
   
     <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
   
