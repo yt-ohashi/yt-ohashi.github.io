@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java-メソッド参照の色々 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="メソッド参照の色々について">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java-メソッド参照の色々"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Java/202208/Java-メソッド参照の色々" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-07T08:33:56.000Z"><a href="/2022/08/07/Java/202208/Java-%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E5%8F%82%E7%85%A7%E3%81%AE%E8%89%B2%E3%80%85/">2022-08-07</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Java-メソッド参照の色々</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="色んな関数型インターフェース"><a href="#色んな関数型インターフェース" class="headerlink" title="色んな関数型インターフェース"></a>色んな関数型インターフェース</h2><p>これまで、StreamAPIから派生して、ラムダ式や関数型インターフェースについて書いてきました。<br>そこではFunctionとConsumerを使っていましたが、他にもいろいろあるので使ってみます。</p>
+<h2 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/lang/Runnable.html">Runnable</a></h2><blockquote>
+<p>public interface Runnable<br>void run()<br>オブジェクトが実装するインタフェースRunnableを使ってスレッドを作成し、そのスレッドを開始すると、独立して実行されるスレッド内で、オブジェクトのrunメソッドが呼び出されます。</p>
+</blockquote>
+<p>引数も戻り値も持たず、ただ実行するだけ。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Runnable Hello  = () -&gt; System.out.println(&quot;Hello&quot;);</span><br><span class="line">        Hello.run();//Hello</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引数や戻り値がないから、mapやforEachには使えなさそう。</p>
+<h2 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/function/Consumer.html">Consumer</a></h2><blockquote>
+<p>@FunctionalInterface<br>public interface Consumer<T><br>単一の入力引数を受け取って結果を返さないオペレーションを表します。Consumerは他のほとんどの関数型インタフェースと異なり、副作用を介して動作することを期待されます。<br>これは、accept(Object)を関数メソッドに持つ関数型インタフェースです。</p>
+</blockquote>
+<p>引数を受け取って、戻り値は返さない。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Consumer&lt;String&gt; Hello  = System.out::println;</span><br><span class="line">        Hello.accept(&quot;Hello&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引数があるので、メソッド参照でSystem.out::printlnができますね。<br>forEachの引数にも使えます。</p>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/function/Function.html">Function</a></h2><blockquote>
+<p>@FunctionalInterface<br>public interface Function&lt;T,R&gt;<br>1つの引数を受け取って結果を生成する関数を表します。<br>これは、apply(Object)を関数メソッドに持つ関数型インタフェースです。</p>
+</blockquote>
+<p>1個の引数を受け取って、結果を返す関数型インターフェース。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Function&lt;String,Integer&gt; Hello  = String::length;</span><br><span class="line">        System.out.println(Hello.apply(&quot;Hello&quot;));//5</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mapにも使えます。<br>変数名.lengthは、クラス名:lengthに書き換えられるんですね。</p>
+<h2 id="BiConsumer"><a href="#BiConsumer" class="headerlink" title="BiConsumer"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/function/BiConsumer.html">BiConsumer</a></h2><blockquote>
+<p>@FunctionalInterface<br>public interface BiConsumer&lt;T,U&gt;<br>2つの入力引数を受け取って結果を返さないオペレーションを表します。これは、Consumerを、引数を2個取るように特殊化したものです。BiConsumerは他のほとんどの関数型インタフェースと異なり、副作用を介して動作することを期待されます。<br>これは、accept(Object, Object)を関数メソッドに持つ関数型インタフェースです。</p>
+</blockquote>
+<p>引数を2つ受け取って、結果を返さない関数型インターフェース。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        BiConsumer&lt;String,Integer&gt; Hello  = Studay::helloCount;</span><br><span class="line">        Hello.accept(&quot;Hello&quot;,1);//Hello1</span><br><span class="line">    &#125;</span><br><span class="line">    public static void helloCount(String str , Integer num)&#123;</span><br><span class="line">        System.out.println(str + num.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>何に使えるのかなーって思って調べると、<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/Hashtable.html#forEach-java.util.function.BiConsumer-">HashTableのforEach</a>で使えました。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HashMap&lt;String,Integer&gt; hashMap = new HashMap&lt;String,Integer&gt;();</span><br><span class="line">        BiConsumer&lt;String,Integer&gt; helloCount = (str,num) -&gt; System.out.println(str + num.toString());</span><br><span class="line">        hashMap.put(&quot;one&quot;,1);</span><br><span class="line">        hashMap.put(&quot;two&quot;,2);</span><br><span class="line">        hashMap.forEach(Studay::helloCountFunc);</span><br><span class="line">        hashMap.forEach(helloCount);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void helloCountFunc(String str , Integer num)&#123;</span><br><span class="line">        System.out.println(str + num.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>難しくなってきた…。</p>
+<h2 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/function/Predicate.html">Predicate</a></h2><blockquote>
+<p>@FunctionalInterface<br>public interface Predicate<T><br>1つの引数の述語(boolean値関数)を表します。<br>これは、test(Object)を関数メソッドに持つ関数型インタフェースです。</p>
+</blockquote>
+<p>引数を1つ受け取ってBoolean型を返す感じかな？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Predicate&lt;String&gt; overten = (str) -&gt; str.length() &gt; 10;</span><br><span class="line">        System.out.println(overten.test(&quot;Hello&quot;));</span><br><span class="line">        System.out.println(overten.test(&quot;Helloooooooooo&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これも何に使えるかな？と調べてみると、StreamAPIのfilterで使えました。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Predicate&lt;String&gt; overten = (str) -&gt; str.length() &gt; 10;</span><br><span class="line">        List&lt;String&gt; hello = Arrays.asList(&quot;Hello&quot;,&quot;Helloooooooooo&quot;);</span><br><span class="line">        hello.stream().filter(overten).forEach(System.out::println);//Helloooooooooo</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="BiPredicate"><a href="#BiPredicate" class="headerlink" title="BiPredicate"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/function/BiPredicate.html">BiPredicate</a></h2><blockquote>
+<p>@FunctionalInterface<br>public interface BiPredicate&lt;T,U&gt;<br>2つの引数の述語(boolean値関数)を表します。これは、Predicateを、引数を2個取るように特殊化したものです。</p>
+</blockquote>
+<p>Predicateの引数が2つあるバージョン。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Integer chk = 5;</span><br><span class="line">        BiPredicate&lt;Integer,Integer&gt; test = (num1,num2) -&gt; num1 &gt;= num2;</span><br><span class="line">        IntStream.rangeClosed(1,10).filter(num-&gt;test.test(chk,num)).forEach(System.out::println);//1,2,3,4,5</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>色々あるなぁ。<br>でも、何個も書いていくうちにラムダ式やメソッド参照についても慣れてきました。<br>現場で出たときも混乱せず読んでいきたいです。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
