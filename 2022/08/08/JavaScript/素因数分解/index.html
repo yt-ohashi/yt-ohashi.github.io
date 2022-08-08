@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>素因数分解 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="素因数分解について">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="素因数分解"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/素因数分解" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-08T11:52:16.000Z"><a href="/2022/08/08/JavaScript/%E7%B4%A0%E5%9B%A0%E6%95%B0%E5%88%86%E8%A7%A3/">2022-08-08</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">素因数分解</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="素数"><a href="#素数" class="headerlink" title="素数"></a><a href="https://yt-ohashi.github.io/2022/08/02/%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A/">素数</a></h2><p>今日の昼休み、素因数分解ってどうやるんだっけ…って何故か急に思いました。<br>まあいいやってご飯食べて休もうとしたけど、なんか気持ち悪いからコード書いてから休みました。<br>もったいないので記事にしておきます。何故急に思ったのかは知りません。パワポケのこと考えてたからかな…。</p>
+<h2 id="forと再帰を使って"><a href="#forと再帰を使って" class="headerlink" title="forと再帰を使って"></a>forと再帰を使って</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const sbk = (num,arr=[]) =&gt; &#123;</span><br><span class="line">    chk = 0;</span><br><span class="line">    for (i of [...Array(num).keys()].slice(2,))&#123;</span><br><span class="line">        if (num % i ===0)&#123;</span><br><span class="line">            chk=i;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return chk &gt; 0 ? sbk(num/chk,[...arr,chk]) : [...arr,num];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引数numを受け取って、2<del>num-1の数だけfor文を回す。<br>割り切れる数があったらbreak。そんで再帰処理。<br>なかったらnumは素数なので再帰終わり。<br>[2,3</del>]の配列を作るとき、filter(i&gt;&#x3D;i&gt;&#x3D;2)は気持ち悪いからsliceにしてみた。</p>
+<h2 id="filterを使って"><a href="#filterを使って" class="headerlink" title="filterを使って"></a>filterを使って</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const sbk = (num,arr=[]) =&gt; &#123;</span><br><span class="line">    chk = [...Array(num).keys()].slice(2,).filter(i=&gt;num % i===0);</span><br><span class="line">    return chk.length &gt; 0 ? sbk(num/chk[0],[...arr,chk[0]]) : [...arr,num];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>forで文回してた所を、filterにしてみました。<br>やってることは同じ。こっちの方がbreakしない分効率は良くなさそう。</p>
+<h2 id="素数判定をして"><a href="#素数判定をして" class="headerlink" title="素数判定をして"></a>素数判定をして</h2><p>&#96;&#96;&#96;<br>const sbk &#x3D; (num) &#x3D;&gt; {<br>    arr &#x3D; [];<br>    while(!sosuu(num)){<br>        const chk &#x3D; […Array(num).keys()].slice(2,).filter(i&#x3D;&gt;num % i&#x3D;&#x3D;&#x3D;0);<br>        arr &#x3D; […arr,chk[0]];<br>        num &#x3D; num &#x2F; chk[0];<br>    }<br>    return […arr,num];<br>}<br>&#96;&#96;<br>素数判定がtrueになるまでwhileで回し続ける。<br>最後に分解してきた配列に素数を足して終わり。<br>こっちの方が再帰じゃない分わかりやすかも？</p>
+<p>終わり！2行でかけたときはちょっと感動した。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
