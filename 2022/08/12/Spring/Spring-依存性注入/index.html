@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring-依存性注入 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="依存性注入（Dependency Injection）">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring-依存性注入"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring/Spring-依存性注入" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-12T00:56:43.000Z"><a href="/2022/08/12/Spring/Spring-%E4%BE%9D%E5%AD%98%E6%80%A7%E6%B3%A8%E5%85%A5/">2022-08-12</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Spring-依存性注入</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="依存とは"><a href="#依存とは" class="headerlink" title="依存とは"></a>依存とは</h2><p>こんな2つのクラスがあったとして…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//HelloWorld</span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    public HelloWorld(String name)&#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    public void PrintHello()&#123;</span><br><span class="line">        System.out.println(this.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//SubHello</span><br><span class="line">public class SubHello &#123;</span><br><span class="line">    private HelloWorld helloworld;</span><br><span class="line">    public SubHello(HelloWorld helloworld)&#123;</span><br><span class="line">        this.helloworld = helloworld;</span><br><span class="line">    &#125;</span><br><span class="line">    public void PrintHSubHello()&#123;</span><br><span class="line">        helloworld.PrintHello();</span><br><span class="line">        System.out.println(&quot;ここはSubです&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>この場合、SubHelloはHelloWOrldに依存している関係となります。<br>helloWorldの結果次第で、SubHelloの結果も変わっちゃいます。<br>helloWorldの実装を変えたときの影響も大きく、保守性やテストをするのがとっても大変です。</p>
+<h2 id="注入とは"><a href="#注入とは" class="headerlink" title="注入とは"></a>注入とは</h2><p>注入はSubHelloのこの部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private HelloWorld helloworld;</span><br><span class="line">public SubHello(HelloWorld helloworld)&#123;</span><br><span class="line">    this.helloworld = helloworld;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>helloWorldを使いたいから、subHelloでHelloWorldのインスタンスを代入しています。 </p>
+<h2 id="依存性注入とは"><a href="#依存性注入とは" class="headerlink" title="依存性注入とは"></a>依存性注入とは</h2><p>今回問題だったのは、実装を書いてあるクラスを渡しちゃったから。<br>ってことで、そんな密に結合しているクラスはやめましょう。疎結合にしましょう。ってのが依存性注入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloInterFace&#123;</span><br><span class="line">    public void PrintHello();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>実装は書かないインターフェースを作って…。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SubHello &#123;</span><br><span class="line">    private HelloInterFace hello;</span><br><span class="line">    public SubHello(HelloInterFace hello)&#123;</span><br><span class="line">        this.hello = hello;</span><br><span class="line">    &#125;</span><br><span class="line">    public void PrintHSubHello()&#123;</span><br><span class="line">        hello.PrintHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SubHelloにはHelloInterFaceを代入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld implements HelloInterFace &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    public HelloWorld(String name)&#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    public void PrintHello()&#123;</span><br><span class="line">        System.out.println(this.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>実装はHelloWorldに書きます。<br>こうすると、SubHelloはHelloWorldの実装が切り離されています。<br>ちょっとコードを変えて…。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloInterFace&#123;</span><br><span class="line">    public Boolean boolHello();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld implements HelloInterFace &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private Integer age;</span><br><span class="line">    public HelloWorld(String name , Integer age)&#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    public Boolean boolHello()&#123;</span><br><span class="line">        return age &lt;= 12 ? true : false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SubHello &#123;</span><br><span class="line">    private HelloInterFace hello;</span><br><span class="line">    public SubHello(HelloInterFace hello)&#123;</span><br><span class="line">        this.hello = hello;</span><br><span class="line">    &#125;</span><br><span class="line">    public void PrintHSubHello()&#123;</span><br><span class="line">        System.out.println(hello.boolHello() ? &quot;SubHello&quot; : &quot;NoSubHello&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>こんな感じに。SubHelloはboolHelloがtrueなら”Subhello”を返すって処理。<br>HelloWorldは、ageが12歳以下ならtrueを返すって処理。小学生には挨拶するけど、大人には無視します。<br>ここでSubHelloの単体テストをしたい時、boolHelloの値がtrueかfalseかのチャックをしたらいいだけなので、<br>HelloWorldがどんな性格の持ち主かどうかは関係ありません。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Studay &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HelloInterFace trueHello = () -&gt; true;</span><br><span class="line">        HelloInterFace falseHello = () -&gt; false;</span><br><span class="line">        SubHello trueSub = new SubHello(trueHello);</span><br><span class="line">        SubHello falseSub = new SubHello(falseHello);</span><br><span class="line">        trueSub.PrintHSubHello();</span><br><span class="line">        falseSub.PrintHSubHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>実装を持っているクラスではなく、インターフェースや抽象クラスを入れることで、疎結合になりました。</p>
+<h2 id="SpringのDI"><a href="#SpringのDI" class="headerlink" title="SpringのDI"></a>SpringのDI</h2><p>Springでは、DIを実現させるために、インスタンスの生成や取得をDIコンテナってのにまかせます。<br>DIコンテナでは、DI対象となるクラス（対象のアノテーションがついているとこ）を探し、<br>@Autowiredがついている所にインスタンスを注入します。</p>
+<h3 id="対象のアノテーション"><a href="#対象のアノテーション" class="headerlink" title="対象のアノテーション"></a>対象のアノテーション</h3><ul>
+<li>@Component</li>
+<li>@Controller</li>
+<li>@Service</li>
+<li>@Repository</li>
+<li>@Configuration</li>
+<li>@RestController</li>
+<li>@Controller</li>
+<li>@ControllerAdvice</li>
+<li>@ManagedBean</li>
+<li>@Named</li>
+<li>@Mapper</li>
+<li>@Bean</li>
+</ul>
+<h2 id="例えば…"><a href="#例えば…" class="headerlink" title="例えば…"></a>例えば…</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.example.SpringBootStudy.Hello;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class HelloService &#123;</span><br><span class="line">    public String Hello()&#123;</span><br><span class="line">        return &quot;Hello&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.example.SpringBootStudy.Hello;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.ui.Model;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line">@Controller</span><br><span class="line">public class HelloController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private HelloService service;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/hello&quot;)</span><br><span class="line">    public String getHello()&#123;</span><br><span class="line">        return &quot;hello&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @PostMapping(&quot;/hello&quot;)</span><br><span class="line">    public String postRequest(@RequestParam(&quot;text1&quot;) String str , Model model)&#123;</span><br><span class="line">        model.addAttribute(&quot;sample&quot;,str+service.Hello());</span><br><span class="line">        return &quot;hello/response&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>この2つのコード。<br>HelloControllerクラスでは、HelloServiceのインスタンスを生成していません。<br>でも、service.Hello()は使えるので、formから受け取ったtext+”Hello”を画面に返すことができます。<br>ちなみに上記はフィールドインジェクションって呼ばれる宣言で、非推奨らしい。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.example.SpringBootStudy.Hello;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.ui.Model;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line">@Controller</span><br><span class="line">public class HelloController &#123;</span><br><span class="line"></span><br><span class="line">    private final HelloService service;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public HelloController(HelloService service)&#123;</span><br><span class="line">        this.service = service;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @PostMapping(&quot;/hello&quot;)</span><br><span class="line">    public String postRequest(@RequestParam(&quot;text1&quot;) String str , Model model)&#123;</span><br><span class="line">        model.addAttribute(&quot;sample&quot;,str+service.Hello());</span><br><span class="line">        return &quot;hello/response&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>こっちはコンストラクタインジェクション。finalを指定できるので、途中で書き換えられたりすることがありません。<br>引数でHelloServieを受け取ってるけど、ここもDIコンテナがやってくれているみたい。<br>DIコンテナ使わなくても、引数にservice渡せば実行できるので、テストも書きやすそうです。</p>
+<h2 id="ライフサイクル管理"><a href="#ライフサイクル管理" class="headerlink" title="ライフサイクル管理"></a>ライフサイクル管理</h2><p>SpringのDIでは、インスタンスのライフサイクルも指定できます。<br>例えば…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@Scope(&quot;session&quot;)</span><br><span class="line">public class nankaController()&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>こうすると、セッション単位でインスタンスが生成されるので、ユーザがログアウトしたらセッションが破棄されます。</p>
+<h3 id="スコープの種類"><a href="#スコープの種類" class="headerlink" title="スコープの種類"></a>スコープの種類</h3><ul>
+<li>singletone</li>
+<li>prototype</li>
+<li>session</li>
+<li>request</li>
+<li>globalSession</li>
+<li>application</li>
+</ul>
+<h2 id="以上"><a href="#以上" class="headerlink" title="以上"></a>以上</h2><p>Springのお勉強でDIってのが？？？？？？になったので、おまとめをしていました。<br>間違った理解をしているかも…というか、そもそも理解もふわっとしているので、<br>またいつか改訂版を書きたいね…。調べながら書いてると3時間ぐらいかかっちゃった。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Spring/">Spring</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
