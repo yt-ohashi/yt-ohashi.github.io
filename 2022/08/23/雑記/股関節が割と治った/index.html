@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>spring-mysqlのSSLエラー | おはしブログ</title>
+  <title>股関節が割と治った | おはしブログ</title>
   <meta name="author" content="ohashi">
   
-  <meta name="description" content="Establishing SSL connection without server&#39;s identity verification is not recommended.">
+  <meta name="description" content="股関節の痛み">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="spring-mysqlのSSLエラー"/>
+  <meta property="og:title" content="股関節が割と治った"/>
   <meta property="og:site_name" content="おはしブログ"/>
 
   
@@ -46,27 +46,24 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring/spring-mysqlのSSLエラー" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-雑記/股関節が割と治った" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2022-08-21T06:22:54.000Z"><a href="/2022/08/21/Spring/spring-mysql%E3%81%AESSL%E3%82%A8%E3%83%A9%E3%83%BC/">2022-08-21</a></time>
+        <time class="dt-published" datetime="2022-08-23T14:56:31.000Z"><a href="/2022/08/23/%E9%9B%91%E8%A8%98/%E8%82%A1%E9%96%A2%E7%AF%80%E3%81%8C%E5%89%B2%E3%81%A8%E6%B2%BB%E3%81%A3%E3%81%9F/">2022-08-23</a></time>
       
       
   
-    <h1 class="p-name title" itemprop="headline name">spring-mysqlのSSLエラー</h1>
+    <h1 class="p-name title" itemprop="headline name">股関節が割と治った</h1>
   
 
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h2 id="SSLエラー"><a href="#SSLエラー" class="headerlink" title="SSLエラー"></a>SSLエラー</h2><p>SpringでMySQLに接続するとき、下記のエラーが出力されることがある。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Establishing SSL connection without server&#x27;s identity verification is not recommended. </span><br></pre></td></tr></table></figure>
-
-<h2 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h2><p> 最近のversionはデフォルトでSSL接続になるみたい。<br> ってことで、application.propatiesの記載を修正し、SSL接続を無効化にする</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost/database?useSSL=false</span><br></pre></td></tr></table></figure>
+        <h2 id="結構治った"><a href="#結構治った" class="headerlink" title="結構治った"></a>結構治った</h2><p>二週間前から痛めている股関節ですが、殆ど治りました。わーい。<br>流石にMAXでは走れませんが、1km～2kmぐらいならなんとかなりそうです。<br>ってことで、今日はちょっと走りました。今週はリハビリで1km～2kmぐらいに留めて置いて、来週からまたダッシュしようと思います。<br>医者の見立てでは、2週間ぐらい（最長6週間）って話でしたが、ちょうど2週間です。すごいね。</p>
+<h2 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h2><p>昨日沼にはまっていたセキュリティですが、なんとか認証できました。<br>どうやら、fetchで投げる時にapplication&#x2F;jsonにしていたのが悪かったようで、application&#x2F;x-www-form-urlencodedで投げてみたらいけました。<br>標準のloginFormでは受けてつけていなかったのが原因だと思うけど、拡張したら受け取れるのかな？<br>ただ、現状ほピペ写経プログラマと化してしまったので、仕様みながら砕いていこうと思います…。</p>
 
       
     </div>
@@ -76,7 +73,7 @@
         
   
   <div class="tags">
-    <a href="/tags/spring/">spring</a>
+    <a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a>
   </div>
 
         
