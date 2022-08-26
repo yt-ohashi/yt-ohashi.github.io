@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>おはしブログ</title>
+  <title>Spring-propertiesの文字化け | おはしブログ</title>
   <meta name="author" content="ohashi">
   
-  <meta name="description" content="雑記
-技術
-投資">
+  <meta name="description" content="IntelliJでの文字化け">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="Spring-propertiesの文字化け"/>
   <meta property="og:site_name" content="おはしブログ"/>
 
   
@@ -48,24 +46,34 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="page-" class="h-entry page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring/Spring-propertiesの文字化け" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-25T14:18:19.000Z"><a href="/2022/08/25/Spring/Spring-properties%E3%81%AE%E6%96%87%E5%AD%97%E5%8C%96%E3%81%91/">2022-08-25</a></time>
+      
       
   
-    <h1 class="p-name title" itemprop="headline name"></h1>
+    <h1 class="p-name title" itemprop="headline name">Spring-propertiesの文字化け</h1>
   
 
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <ul>
-<li><a href="https://yt-ohashi.github.io/tags/%E9%9B%91%E8%A8%98/">雑記</a></li>
-<li><a href="https://yt-ohashi.github.io/tags/%E6%8A%80%E8%A1%93/">技術</a></li>
-<li><a href="https://yt-ohashi.github.io/tags/%E6%8A%95%E8%B3%87/">投資</a></li>
+        <h2 id="文字化け"><a href="#文字化け" class="headerlink" title="文字化け"></a>文字化け</h2><p>IntelliJでapllication.propertiesに日本語を書くと文字化けします。かなし…。 </p>
+<h2 id="修正方法"><a href="#修正方法" class="headerlink" title="修正方法"></a>修正方法</h2><ol>
+<li>ファイル</li>
+<li>設定</li>
+<li>エディター</li>
+<li>ファイルエンコーディング</li>
+<li>プロパティファイルのデフォルトエンコーディング<ul>
+<li>ネイティブコードからASCIIコードへの自動変換を行うにチェック</li>
 </ul>
+</li>
+</ol>
+<p>これで治るはず。</p>
 
       
     </div>
@@ -73,6 +81,11 @@
       
         
         
+  
+  <div class="tags">
+    <a href="/tags/spring/">spring</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
