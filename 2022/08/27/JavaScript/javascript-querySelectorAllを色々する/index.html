@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript-querySelectorAllを色々する | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="mapにしたりオブジェクトにしたりする">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript-querySelectorAllを色々する"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/javascript-querySelectorAllを色々する" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-27T14:42:32.000Z"><a href="/2022/08/27/JavaScript/javascript-querySelectorAll%E3%82%92%E8%89%B2%E3%80%85%E3%81%99%E3%82%8B/">2022-08-27</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">javascript-querySelectorAllを色々する</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="焦った"><a href="#焦った" class="headerlink" title="焦った"></a>焦った</h2><p>Windowsに入っているnodeの環境を、wslに移行しようと思ってwindowsのnodeをアンインストールしました。<br>その結果、Hexoが使えなくてパニックに。完全に忘れていた…。</p>
+<h2 id="querySelectorAll"><a href="#querySelectorAll" class="headerlink" title="querySelectorAll"></a>querySelectorAll</h2><p>こんなインプット要素を持つページがあったとして…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; id=&quot;id&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>querySelectorAllで値を取得すると、nodeListが返ってくる</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const getInput = document.querySelectorAll(&quot;input&quot;);</span><br><span class="line"> NodeList(2) [input#id, input#name]</span><br></pre></td></tr></table></figure>
+
+<h2 id="forEachで回す"><a href="#forEachで回す" class="headerlink" title="forEachで回す"></a>forEachで回す</h2><p>これは元々備わっていますね</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getInput.forEach(value=&gt;console.log(value.id))</span><br><span class="line"> id</span><br><span class="line"> name</span><br></pre></td></tr></table></figure>
+
+<h2 id="mapで回す"><a href="#mapで回す" class="headerlink" title="mapで回す"></a>mapで回す</h2><p>mapは備わっていませんが、スプレッド構文で展開したものを配列にすると、mapで回せます</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[...getInput].map(value=&gt;value.id)</span><br><span class="line"> [&#x27;id&#x27;, &#x27;name&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="オブジェクトにしたい"><a href="#オブジェクトにしたい" class="headerlink" title="オブジェクトにしたい"></a>オブジェクトにしたい</h2><p>idと入力値のオブジェクトを作りたいときは、Object.fromEntries()が使えそうです。</p>
+<h3 id="Object-fromEntries"><a href="#Object-fromEntries" class="headerlink" title="Object.fromEntries()"></a>Object.fromEntries()</h3><p>Object.fromEntries() は、[値,キー]のリストをオブジェクトにできます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.fromEntries([[&quot;id&quot;,1],[&quot;name&quot;,&quot;hasi&quot;]])</span><br><span class="line"> &#123;id: 1, name: &#x27;hasi&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="mapと組み合わせて"><a href="#mapと組み合わせて" class="headerlink" title="mapと組み合わせて"></a>mapと組み合わせて</h3><p>mapと組み合わせてオブジェクトにしてみます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.fromEntries([...getInput].map(value=&gt;[value.id,value.value]))</span><br><span class="line">&#123;id: &#x27;あ&#x27;, name: &#x27;い&#x27;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他にも書き方はありそうですね。</p>
+<h2 id="途中の疑問"><a href="#途中の疑問" class="headerlink" title="途中の疑問"></a>途中の疑問</h2><p>記事書いてる途中、こんな配列を処理したことなかったっけな…？これどうやってObjectにするのかな？って思ったけど、良い書き方が思い浮かばなかった。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj = [&#123;id: 1&#125;,&#123;name: &#x27;hasi&#x27;&#125;]</span><br><span class="line">0: &#123;id: 1&#125;</span><br><span class="line">1: &#123;name: &#x27;hasi&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<p>一応書いてみたけど、なんじゃこりゃ…。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.fromEntries(obj.map(value=&gt;[Object.keys(value),Object.values(value)].flat()))</span><br><span class="line">&#123;id: 1, name: &#x27;hasi&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<p>今度調べておこうか…。<br>ちなみに、前処理した気がすると思っていたのは完全に勘違いだったのでした。30分ぐらい考えてしまった。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>6</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>6</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>6</small></li>
+  
+    <li><a href="/tags/spring/">spring</a><small>2</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>3</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
