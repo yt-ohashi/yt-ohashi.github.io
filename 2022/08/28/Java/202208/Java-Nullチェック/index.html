@@ -6,7 +6,7 @@
   <title>Java-Nullチェック | おはしブログ</title>
   <meta name="author" content="ohashi">
   
-  <meta name="description" content="JavaのStreamAPIについて">
+  <meta name="description" content="Nullチェック">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -62,7 +62,7 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h2 id="JavaのNullチェック"><a href="#JavaのNullチェック" class="headerlink" title="JavaのNullチェック"></a>JavaのNullチェック</h2><p>Nullチェックをする、変数&#x3D;&#x3D;nullで書いてもチェックすることはできますが、JavaではNull判定を行うメソッドが用意されています。</p>
+        <h2 id="JavaのNullチェック"><a href="#JavaのNullチェック" class="headerlink" title="JavaのNullチェック"></a>JavaのNullチェック</h2><p>Nullチェックをする際、変数&#x3D;&#x3D;nullで書いてもチェックすることはできますが、JavaではNull判定を行うメソッドが用意されています。</p>
 <h2 id="Objects-isNull"><a href="#Objects-isNull" class="headerlink" title="Objects.isNull()"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/Objects.html#isNull-java.lang.Object-">Objects.isNull()</a></h2><p>null判定の結果、nullならtrueを返してくれます。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String nullCheck = null;</span><br><span class="line">System.out.println(Objects.isNull(nullCheck));</span><br><span class="line"> true</span><br></pre></td></tr></table></figure>
 
@@ -77,8 +77,9 @@
 
 <h2 id="効果"><a href="#効果" class="headerlink" title="効果"></a>効果</h2><p>ドキュメントにこんな記載がありました。</p>
 <blockquote>
-<p>このメソッドは、Predicate(filter(Objects::isNull))として使用するために存在します。<br>Streamとかで、null判定をする時に使えるのかな。</p>
+<p>このメソッドは、Predicate(filter(Objects::isNull))として使用するために存在します。</p>
 </blockquote>
+<p>Streamとかで、null判定をする時に使えるのかな。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(0,1,2,3,null,4,5);//リストを宣言</span><br><span class="line">List&lt;Integer&gt; stream_data = data.stream() //生成</span><br><span class="line">        .filter(Objects::nonNull) //nullチェック</span><br><span class="line">        .map(value-&gt;value*2) //中間処理</span><br><span class="line">        .toList(); // 終端処理</span><br><span class="line">System.out.println(stream_data);//[0, 2, 4, 6, 8, 10]</span><br></pre></td></tr></table></figure>
 <p>かなり無理やりな例だけど…途中でNullチェックを入れないとエラーがでますね。nonNull()のおかげでfilterができました。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(0,1,2,3,null,4,5);//リストを宣言</span><br><span class="line">Integer stream_data = Objects.isNull(data) ? 0 : data.stream() //生成</span><br><span class="line">        .filter(Objects::nonNull)</span><br><span class="line">        .map(value-&gt;value*2)</span><br><span class="line">        .mapToInt(value -&gt; value).sum();</span><br><span class="line">System.out.println(stream_data);//30</span><br></pre></td></tr></table></figure>
@@ -134,7 +135,7 @@
   
     <li><a href="/tags/spring/">spring</a><small>2</small></li>
   
-    <li><a href="/tags/%E6%A0%AA/">株</a><small>4</small></li>
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>5</small></li>
   
     <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>9</small></li>
   
