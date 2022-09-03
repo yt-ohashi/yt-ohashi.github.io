@@ -62,11 +62,11 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h2 id="javascriptのimport-export"><a href="#javascriptのimport-export" class="headerlink" title="javascriptのimport,export"></a>javascriptの<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import">import</a>,<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/export">export</a></h2><p>javascriptでimportを行う時は、importできるメソッドを明示的に指定する必要があります。<br>exportをすることでimportができる。その方法についてです。</p>
-<h3 id="default-export"><a href="#default-export" class="headerlink" title="default export"></a>default export</h3><p>各ファイルに1個だけ指定することができるexport方法。  </p>
+        <h2 id="javascriptのimport-export"><a href="#javascriptのimport-export" class="headerlink" title="javascriptのimport,export"></a>javascriptの<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import">import</a>,<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/export">export</a></h2><p>javascriptでimportを行う時は、importできるメソッドを明示的にexportする必要があります。</p>
+<h3 id="default-export"><a href="#default-export" class="headerlink" title="default export"></a>default export</h3><p>各モジュールに1個だけ指定することができるexport方法。  </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nst add = (n,m) =&gt; n+m;</span><br><span class="line">export default add;</span><br></pre></td></tr></table></figure>
 
-<h3 id="default-import"><a href="#default-import" class="headerlink" title="default import"></a>default import</h3><p>default exportをしたメソッドは、import ~~ from ファイル名で読み込むことができます。<br>~~の部分はimport時に自由に決めることができます。</p>
+<h3 id="default-import"><a href="#default-import" class="headerlink" title="default import"></a>default import</h3><p>default exportをしたメソッドは、import ~~ from ファイル名（モジュール名）で読み込むことができます。<br>~~の部分はimport時に自由に決めることができます。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import addimp from &#x27;./calc.js&#x27;</span><br><span class="line">console.log(addimp(1,3));//4</span><br></pre></td></tr></table></figure>
 
 
@@ -86,6 +86,23 @@
 <p>defaultがちょっと気持ち悪いので、defaultだけ別で読み込んでみます。  </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import add , * as calc from &#x27;./calc.js&#x27;;</span><br><span class="line">console.log(add(1,3));</span><br><span class="line">console.log(calc.minus(6,1));</span><br><span class="line">console.log(calc.mul(2,3));</span><br><span class="line">console.log(calc.div(4,2));</span><br></pre></td></tr></table></figure>
 <p>この例だとこっちのほうが気持ち悪かったな…。</p>
+<h2 id="集約"><a href="#集約" class="headerlink" title="集約"></a>集約</h2><p>複数のモジュール読み込みたいとき、全部のimportを読み込むのは大変…ってことで、読み込みたいモジュールを集約することができます。</p>
+<h3 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const add = (n,m) =&gt; n+m;</span><br><span class="line">const minus = (n,m) =&gt; n-m;</span><br><span class="line">const mul = (n,m) =&gt; n*m;</span><br><span class="line">const div = (n,m) =&gt; n/m;</span><br><span class="line"></span><br><span class="line">export &#123;add,minus,mul,div&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="hello"><a href="#hello" class="headerlink" title="hello"></a>hello</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const hello = (name) =&gt; `Hello$&#123;name&#125;`;</span><br><span class="line">const smallHello = (name) =&gt; `hello...$&#123;name&#125;`;</span><br><span class="line">const bigHello = (name) =&gt; `Hello!!!!!$&#123;name&#125;`;</span><br><span class="line">export &#123;hello,smallHello,bigHello&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="imp"><a href="#imp" class="headerlink" title="imp"></a>imp</h3><p>export from ファイル名（モジュール名）を使うと、指定したものを再exportできるので、これを複数書きます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export * as calc from &quot;./calc.js&quot;;</span><br><span class="line">export * as hello from &quot;./hello.js&quot;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><p>impを読み込んで使います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import * as imp from &quot;./imp.js&quot;;</span><br><span class="line">console.log(imp);</span><br></pre></td></tr></table></figure>
+
+<p>実行結果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Module] &#123;</span><br><span class="line">  calc: [Module] &#123;</span><br><span class="line">    add: [Function: add],</span><br><span class="line">    div: [Function: div],</span><br><span class="line">    minus: [Function: minus],</span><br><span class="line">    mul: [Function: mul]</span><br><span class="line">  &#125;,</span><br><span class="line">  hello: [Module] &#123;</span><br><span class="line">    bigHello: [Function: bigHello],</span><br><span class="line">    hello: [Function: hello],</span><br><span class="line">    smallHello: [Function: smallHello]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ちゃんと使ってみる</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import * as imp from &quot;./imp.js&quot;;</span><br><span class="line">console.log(imp.calc.add(2,3));//5</span><br><span class="line">console.log(imp.hello.hello(&quot;おはし&quot;));//Helloおはし</span><br></pre></td></tr></table></figure>
+
+<p>終わり！wsl2のコンソールからvimで書いて動かしながらやってたら疲れった…。</p>
 
       
     </div>
