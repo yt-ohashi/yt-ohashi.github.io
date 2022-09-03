@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript-import,export | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="import,export">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript-import,export"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202209/javascript-import-export" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-09-03T14:50:30.000Z"><a href="/2022/09/03/JavaScript/202209/javascript-import-export/">2022-09-03</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">javascript-import,export</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="javascriptのimport-export"><a href="#javascriptのimport-export" class="headerlink" title="javascriptのimport,export"></a>javascriptの<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import">import</a>,<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/export">export</a></h2><p>javascriptでimportを行う時は、importできるメソッドを明示的に指定する必要があります。<br>exportをすることでimportができる。その方法についてです。</p>
+<h3 id="default-export"><a href="#default-export" class="headerlink" title="default export"></a>default export</h3><p>各ファイルに1個だけ指定することができるexport方法。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nst add = (n,m) =&gt; n+m;</span><br><span class="line">export default add;</span><br></pre></td></tr></table></figure>
+
+<h3 id="default-import"><a href="#default-import" class="headerlink" title="default import"></a>default import</h3><p>default exportをしたメソッドは、import ~~ from ファイル名で読み込むことができます。<br>~~の部分はimport時に自由に決めることができます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import addimp from &#x27;./calc.js&#x27;</span><br><span class="line">console.log(addimp(1,3));//4</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="名前付きexport"><a href="#名前付きexport" class="headerlink" title="名前付きexport"></a>名前付きexport</h3><p>default exportは1個だけしかexportができないので、複数したい場合は名前付きexportを行います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const add = (n,m) =&gt; n+m;</span><br><span class="line">const minus = (n,m) =&gt; n-m;</span><br><span class="line">const mul = (n,m) =&gt; n*m;</span><br><span class="line">const div = (n,m) =&gt; n/m;</span><br><span class="line"></span><br><span class="line">export default add;</span><br><span class="line">export &#123;minus,mul,div&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="名前付きimport"><a href="#名前付きimport" class="headerlink" title="名前付きimport"></a>名前付きimport</h3><p>importも基本的に同じような記述です。<br>asを使えば、好きな名前で読み込むこともできます。<br>※asはexportでもできるので、必ずメソッド名でexportしなくても良い</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import add , &#123;minus , mul , div as wari&#125; from &#x27;./calc.js&#x27;</span><br><span class="line">console.log(add(1,3));//4</span><br><span class="line">console.log(minus(6,1));//5</span><br><span class="line">console.log(mul(2,3));//6</span><br><span class="line">console.log(wari(4,2));//2</span><br></pre></td></tr></table></figure>
+
+<h2 id="import-from-ファイル名"><a href="#import-from-ファイル名" class="headerlink" title="import * from ファイル名"></a>import * from ファイル名</h2><p>*を使えば、一括で読み込むことができます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import * as calc from &#x27;./calc.js&#x27;;</span><br><span class="line">console.log(calc);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">実行結果</span><br><span class="line">[Module] &#123;</span><br><span class="line">  default: [Function: add],</span><br><span class="line">  div: [Function: div],</span><br><span class="line">  minus: [Function: minus],</span><br><span class="line">  mul: [Function: mul]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使う時はこう。普通の書き方ですね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import * as calc from &#x27;./calc.js&#x27;;</span><br><span class="line">console.log(calc.default(1,3));</span><br><span class="line">console.log(calc.minus(6,1));</span><br><span class="line">console.log(calc.mul(2,3));</span><br><span class="line">console.log(calc.div(4,2));</span><br></pre></td></tr></table></figure>
+
+<p>defaultがちょっと気持ち悪いので、defaultだけ別で読み込んでみます。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import add , * as calc from &#x27;./calc.js&#x27;;</span><br><span class="line">console.log(add(1,3));</span><br><span class="line">console.log(calc.minus(6,1));</span><br><span class="line">console.log(calc.mul(2,3));</span><br><span class="line">console.log(calc.div(4,2));</span><br></pre></td></tr></table></figure>
+<p>この例だとこっちのほうが気持ち悪かったな…。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>6</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
+  
+    <li><a href="/tags/spring/">spring</a><small>2</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>6</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
