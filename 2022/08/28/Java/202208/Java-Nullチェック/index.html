@@ -1,68 +1,111 @@
-<!DOCTYPE HTML>
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   
   <title>Java-Nullチェック | おはしブログ</title>
-  <meta name="author" content="ohashi">
-  
+  <meta name="viewport" content="width=device-width">
   <meta name="description" content="Nullチェック">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-Nullチェック">
+<meta property="og:url" content="https://yt-ohashi.github.io/2022/08/28/Java/202208/Java-Null%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/index.html">
+<meta property="og:site_name" content="おはしブログ">
+<meta property="og:description" content="Nullチェック">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2022-08-28T14:57:07.000Z">
+<meta property="article:modified_time" content="2022-08-30T13:01:11.533Z">
+<meta property="article:author" content="ohashi">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="Java-Nullチェック"/>
-  <meta property="og:site_name" content="おはしブログ"/>
-
   
-    <meta property="og:image" content=""/>
-  
-
-  <link rel="shortcut icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.png">
   
   
 <link rel="stylesheet" href="/css/style.css">
 
-  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <meta name="generator" content="Hexo 6.2.0"></head>
-
-
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">おはしブログ</a></h1>
-  <h2><a href="/">何かを書きます</a></h2>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div>
+<header id="header">
+	<div class="blog-title">
+		<h1>
+			<a href="/">おはしブログ</a>
+		</h1>
+		<h2>
+			何かを書きます
+		</h2>
+	</div>
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/tag">tag</a></li>
+			
+		</ul>
+    </nav>
 </header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Java/202208/Java-Nullチェック" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+
+    <div id="main">
+      <article id="post-Java/202208/Java-Nullチェック" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2022/08/28/Java/202208/Java-Nullチェック/" class="article-date">
+  <time datetime="2022-08-28T14:57:07.000Z" itemprop="datePublished">2022-08-28</time>
+</a>
+		</span>
+		<span class="meta-elements author">ohashi</span>
+		<div class="commentscount">
+			
+		</div>
+	</footer>
+	
+	<header class="entry-header">
+		
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2022-08-28T14:57:07.000Z"><a href="/2022/08/28/Java/202208/Java-Null%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/">2022-08-28</a></time>
-      
-      
-  
-    <h1 class="p-name title" itemprop="headline name">Java-Nullチェック</h1>
+    <h1 class="article-title entry-title" itemprop="name">
+      Java-Nullチェック
+    </h1>
   
 
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h2 id="JavaのNullチェック"><a href="#JavaのNullチェック" class="headerlink" title="JavaのNullチェック"></a>JavaのNullチェック</h2><p>Nullチェックをする際、変数&#x3D;&#x3D;nullで書いてもチェックすることはできますが、JavaではNull判定を行うメソッドが用意されています。</p>
+	</header>
+	<div class="entry-content">
+		
+    	<h2 id="JavaのNullチェック"><a href="#JavaのNullチェック" class="headerlink" title="JavaのNullチェック"></a>JavaのNullチェック</h2><p>Nullチェックをする際、変数&#x3D;&#x3D;nullで書いてもチェックすることはできますが、JavaではNull判定を行うメソッドが用意されています。</p>
 <h2 id="Objects-isNull"><a href="#Objects-isNull" class="headerlink" title="Objects.isNull()"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/jp/8/docs/api/java/util/Objects.html#isNull-java.lang.Object-">Objects.isNull()</a></h2><p>null判定の結果、nullならtrueを返してくれます。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String nullCheck = null;</span><br><span class="line">System.out.println(Objects.isNull(nullCheck));</span><br><span class="line"> true</span><br></pre></td></tr></table></figure>
 
@@ -85,88 +128,78 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(0,1,2,3,null,4,5);//リストを宣言</span><br><span class="line">Integer stream_data = Objects.isNull(data) ? 0 : data.stream() //生成</span><br><span class="line">        .filter(Objects::nonNull)</span><br><span class="line">        .map(value-&gt;value*2)</span><br><span class="line">        .mapToInt(value -&gt; value).sum();</span><br><span class="line">System.out.println(stream_data);//30</span><br></pre></td></tr></table></figure>
 <p>最初にList自体のNullチェックをして、Trueなら0、falseならNull以外を合計してみました。<br>こういった使い方ができる他にも、isNullかnonNullからぱっと見分かりやすいことも効果としてありそうですね。</p>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-  
-  <div class="tags">
-    <a href="/tags/Java/">Java</a>
-  </div>
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
 
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/29/株/202208/前日比プラス引け/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
+          前日比プラス引け
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/27/JavaScript/202208/javascript-querySelectorAllを色々する/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          javascript-querySelectorAllを色々する
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
 
-<section id="comment">
-  <h1 class="title">コメント</h1>
 
-  
-</section>
 
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
+    </div>
+    <div class="mb-search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="検索">
-    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yt-ohashi.github.io">
   </form>
 </div>
+<footer id="footer">
+	<h1 class="footer-blog-title">
+		<a href="/">おはしブログ</a>
+	</h1>
+	<span class="copyright">
+		&copy; 2022 ohashi<br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> theme, designed by <a href="http://www.sanographix.net/" target="_blank">SANOGRAPHIX.NET</a><br>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	</span>
+</footer>
+    
+
+<script src="//oss.maxcdn.com/jquery/2.1.1/jquery.min.js"></script>
 
 
-  
 
-  
-<div class="widget tag">
-  <h3 class="title">タグ</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Java/">Java</a><small>7</small></li>
-  
-    <li><a href="/tags/Spring/">Spring</a><small>6</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
-  
-    <li><a href="/tags/node/">node</a><small>1</small></li>
-  
-    <li><a href="/tags/spring/">spring</a><small>2</small></li>
-  
-    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
-  
-    <li><a href="/tags/%E6%A0%AA/">株</a><small>7</small></li>
-  
-    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
-  
-  </ul>
-</div>
 
-</aside>
-    <div class="clearfix"></div>
+<script src="/js/script.js"></script>
+
+
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2022 ohashi
-  
-</div>
-<div class="clearfix"></div></footer>
-  
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-<script src="/js/jquery.imagesloaded.min.js"></script>
-
-
-<script src="/js/gallery.js"></script>
-
-
-
-
-
 </body>
 </html>

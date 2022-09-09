@@ -1,68 +1,111 @@
-<!DOCTYPE HTML>
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   
   <title>javascript-querySelectorAllを色々する | おはしブログ</title>
-  <meta name="author" content="ohashi">
-  
+  <meta name="viewport" content="width=device-width">
   <meta name="description" content="mapにしたりオブジェクトにしたりする">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript-querySelectorAllを色々する">
+<meta property="og:url" content="https://yt-ohashi.github.io/2022/08/27/JavaScript/202208/javascript-querySelectorAll%E3%82%92%E8%89%B2%E3%80%85%E3%81%99%E3%82%8B/index.html">
+<meta property="og:site_name" content="おはしブログ">
+<meta property="og:description" content="mapにしたりオブジェクトにしたりする">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2022-08-27T14:42:32.000Z">
+<meta property="article:modified_time" content="2022-08-27T15:31:45.415Z">
+<meta property="article:author" content="ohashi">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="javascript-querySelectorAllを色々する"/>
-  <meta property="og:site_name" content="おはしブログ"/>
-
   
-    <meta property="og:image" content=""/>
-  
-
-  <link rel="shortcut icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.png">
   
   
 <link rel="stylesheet" href="/css/style.css">
 
-  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <meta name="generator" content="Hexo 6.2.0"></head>
-
-
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">おはしブログ</a></h1>
-  <h2><a href="/">何かを書きます</a></h2>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div>
+<header id="header">
+	<div class="blog-title">
+		<h1>
+			<a href="/">おはしブログ</a>
+		</h1>
+		<h2>
+			何かを書きます
+		</h2>
+	</div>
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/tag">tag</a></li>
+			
+		</ul>
+    </nav>
 </header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202208/javascript-querySelectorAllを色々する" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+
+    <div id="main">
+      <article id="post-JavaScript/202208/javascript-querySelectorAllを色々する" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2022/08/27/JavaScript/202208/javascript-querySelectorAllを色々する/" class="article-date">
+  <time datetime="2022-08-27T14:42:32.000Z" itemprop="datePublished">2022-08-27</time>
+</a>
+		</span>
+		<span class="meta-elements author">ohashi</span>
+		<div class="commentscount">
+			
+		</div>
+	</footer>
+	
+	<header class="entry-header">
+		
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2022-08-27T14:42:32.000Z"><a href="/2022/08/27/JavaScript/202208/javascript-querySelectorAll%E3%82%92%E8%89%B2%E3%80%85%E3%81%99%E3%82%8B/">2022-08-27</a></time>
-      
-      
-  
-    <h1 class="p-name title" itemprop="headline name">javascript-querySelectorAllを色々する</h1>
+    <h1 class="article-title entry-title" itemprop="name">
+      javascript-querySelectorAllを色々する
+    </h1>
   
 
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h2 id="焦った"><a href="#焦った" class="headerlink" title="焦った"></a>焦った</h2><p>Windowsに入っているnodeの環境を、wslに移行しようと思ってwindowsのnodeをアンインストールしました。<br>その結果、Hexoが使えなくてパニックに。完全に忘れていた…。</p>
+	</header>
+	<div class="entry-content">
+		
+    	<h2 id="焦った"><a href="#焦った" class="headerlink" title="焦った"></a>焦った</h2><p>Windowsに入っているnodeの環境を、wslに移行しようと思ってwindowsのnodeをアンインストールしました。<br>その結果、Hexoが使えなくてパニックに。完全に忘れていた…。</p>
 <h2 id="querySelectorAll"><a href="#querySelectorAll" class="headerlink" title="querySelectorAll"></a>querySelectorAll</h2><p>こんなインプット要素を持つページがあったとして…</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; id=&quot;id&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <p>querySelectorAllで値を取得すると、nodeListが返ってくる</p>
@@ -87,88 +130,78 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.fromEntries(obj.map(value=&gt;[Object.keys(value),Object.values(value)].flat()))</span><br><span class="line">&#123;id: 1, name: &#x27;hasi&#x27;&#125;</span><br></pre></td></tr></table></figure>
 <p>今度調べておこうか…。<br>ちなみに、前処理した気がすると思っていたのは完全に勘違いだったのでした。30分ぐらい考えてしまった。</p>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-  
-  <div class="tags">
-    <a href="/tags/javascript/">javascript</a>
-  </div>
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
 
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/28/Java/202208/Java-Nullチェック/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
+          Java-Nullチェック
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/26/Spring/202208/Spring-自動ビルドの有効化/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          Spring-自動ビルドの有効化
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
 
-<section id="comment">
-  <h1 class="title">コメント</h1>
 
-  
-</section>
 
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
+    </div>
+    <div class="mb-search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="検索">
-    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yt-ohashi.github.io">
   </form>
 </div>
+<footer id="footer">
+	<h1 class="footer-blog-title">
+		<a href="/">おはしブログ</a>
+	</h1>
+	<span class="copyright">
+		&copy; 2022 ohashi<br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> theme, designed by <a href="http://www.sanographix.net/" target="_blank">SANOGRAPHIX.NET</a><br>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	</span>
+</footer>
+    
+
+<script src="//oss.maxcdn.com/jquery/2.1.1/jquery.min.js"></script>
 
 
-  
 
-  
-<div class="widget tag">
-  <h3 class="title">タグ</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Java/">Java</a><small>7</small></li>
-  
-    <li><a href="/tags/Spring/">Spring</a><small>6</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
-  
-    <li><a href="/tags/node/">node</a><small>1</small></li>
-  
-    <li><a href="/tags/spring/">spring</a><small>2</small></li>
-  
-    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
-  
-    <li><a href="/tags/%E6%A0%AA/">株</a><small>7</small></li>
-  
-    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
-  
-  </ul>
-</div>
 
-</aside>
-    <div class="clearfix"></div>
+<script src="/js/script.js"></script>
+
+
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2022 ohashi
-  
-</div>
-<div class="clearfix"></div></footer>
-  
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-<script src="/js/jquery.imagesloaded.min.js"></script>
-
-
-<script src="/js/gallery.js"></script>
-
-
-
-
-
 </body>
 </html>
