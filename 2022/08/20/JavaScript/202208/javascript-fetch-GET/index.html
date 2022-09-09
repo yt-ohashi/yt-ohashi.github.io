@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript-fetch-GET | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="javascriptのFetch APIについて">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript-fetch-GET"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202208/javascript-fetch-GET" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-20T14:39:32.000Z"><a href="/2022/08/20/JavaScript/202208/javascript-fetch-GET/">2022-08-20</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">javascript-fetch-GET</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h2><p>spring bootでREST APIを作ってみたので、それをjavascriptの<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/API/Fetch_API/Using_Fetch">fetch api</a>を使って取得してみる</p>
+<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p>今回はGETだけ。<br>パラメータをつけて送ったらそのまま結果を返すだけのAPI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/Hello/get?name=name&amp;message=message</span><br><span class="line">&#123;&quot;name&quot;:&quot;name&quot;,&quot;message&quot;:&quot;message&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>こんな感じで取得してみた</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const getFunc = (url, param) =&gt; &#123;</span><br><span class="line">  // パラメータ作成</span><br><span class="line">  param = new URLSearchParams(param);</span><br><span class="line"></span><br><span class="line">  return fetch(`$&#123;url&#125;?` + param)</span><br><span class="line">    .then(res =&gt; &#123;</span><br><span class="line">      // リクエスト成功、もしくは400ならjsonを返す</span><br><span class="line">      if (res.ok || res.status === 400) &#123;</span><br><span class="line">        return res.json();</span><br><span class="line">      &#125;</span><br><span class="line">      // 成功しなかった場合はエラーを投げる</span><br><span class="line">      throw Error();</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(error =&gt; &quot;エラーが発生しました&quot;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// バリデーションエラーの内容を返す</span><br><span class="line">const validError = (errorData) =&gt; &#123;</span><br><span class="line">  const errorResult = errorData.errors.map(data =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      field: data.field,</span><br><span class="line">      message: data.defaultMessage,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">  return &#123; error: errorResult &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// fetchはpromiseを返すので、awaitで処理待ちして値を取得</span><br><span class="line">const helloFunc = async () =&gt; &#123;</span><br><span class="line">  const param = &#123; name: &quot;name&quot;, message: &quot;message&quot; &#125;;</span><br><span class="line">  const httpGetUrl = &quot;http://localhost:8080/Hello/get&quot;;</span><br><span class="line">  const getResult = await getFunc(httpGetUrl, param);</span><br><span class="line">  console.log(&quot;get&quot;, !getResult.status ? getResult : validError(getResult).error);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="URLSearchParams"><a href="#URLSearchParams" class="headerlink" title="URLSearchParams"></a>URLSearchParams</h3><p>URLSearchParams知らなかったけど便利。<br>オブジェクトを用意しておけば、?name&#x3D;ほにゃららみたいな文字列に変換してくれます。<br>GETでパラメータを送るときは、これを使えばOK。<br>今日まで知らなかった…。</p>
+<h3 id="getFunc"><a href="#getFunc" class="headerlink" title="getFunc"></a>getFunc</h3><p>今回のメインの処理。<br>fetchはリクエストを投げて、promiseを返します。<br>サーバがネットワークエラーの場合、TypeErrorでcatchに渡るみたいですが、サーバに通った後のバリデーションエラー等の場合は、catchに渡りません。<br>ってことで、正常な結果が返っているか判断して、異常な場合はerrorを投げています。異常は全部catchする感じ。<br>正常はresponse.okで判断をするのですが、今回はバリデーションエラーの場合はエラーに渡したくなかったので、400は正常処理にしました。<br>.json()は結果をjson形式で返します。これもPromise。</p>
+<h3 id="validError"><a href="#validError" class="headerlink" title="validError"></a>validError</h3><p>バリデーションエラーが発生した場合の結果を見てましたが、errorsにメッセージや発生したフィールドが入っていました。<br>errorsは配列で保持ししていたので、mapでfieldとmessageだけ抜き出す関数を作っています。</p>
+<h3 id="helloFunc"><a href="#helloFunc" class="headerlink" title="helloFunc"></a>helloFunc</h3><p>メインの処理。fetchのpromiseをthenで繋げるのではなく、async&#x2F;awaitで処理しています。<br>前の実装でthenで繋げまくったら大変なことになったので…。<br>ってことでURLとParamを作り、awaitでGETリクエストを投げる。<br>処理を待って、コンソールに出力しています。<br>正常な場合はstatusは持ちませんが、異常な場合はhttpのエラーコードを持っています。<br>なので、statusがある場合はvalidErrorでエラー情報を取得しました。</p>
+<h3 id="正常"><a href="#正常" class="headerlink" title="正常"></a>正常</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get &#123;name: &#x27;name&#x27;, message: &#x27;message&#x27;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="異常-nameがnullだと異常"><a href="#異常-nameがnullだと異常" class="headerlink" title="異常(nameがnullだと異常)"></a>異常(nameがnullだと異常)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get [&#123;…&#125;]  </span><br><span class="line">0: &#123;field: &#x27;name&#x27;, message: &#x27;空要素は許可されていません&#x27;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="異常（ネットワークエラー）"><a href="#異常（ネットワークエラー）" class="headerlink" title="異常（ネットワークエラー）"></a>異常（ネットワークエラー）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get エラーが発生しました</span><br></pre></td></tr></table></figure>
+
+<h2 id="おわり"><a href="#おわり" class="headerlink" title="おわり"></a>おわり</h2><p>とりあえず、今回はバリデーションエラーだけ考えてつくったけど、実際はもっとエラー処理を丁寧にしなきゃですね。<br>明日はpostについて書こうと思います。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>8</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

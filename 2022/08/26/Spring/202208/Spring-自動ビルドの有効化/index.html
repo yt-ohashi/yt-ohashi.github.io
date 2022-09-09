@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring-自動ビルドの有効化 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="Spring Boot DevToolsの有効化">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring-自動ビルドの有効化"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring/202208/Spring-自動ビルドの有効化" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-26T14:39:02.000Z"><a href="/2022/08/26/Spring/202208/Spring-%E8%87%AA%E5%8B%95%E3%83%93%E3%83%AB%E3%83%89%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96/">2022-08-26</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Spring-自動ビルドの有効化</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="Spring-Boot-DevTools"><a href="#Spring-Boot-DevTools" class="headerlink" title="Spring Boot DevTools"></a>Spring Boot DevTools</h2><p>ソースコードを修正したとき、普通はプロジェクトの再起動が必要です。ビルドして実行。<br>Soringで開発する際、Spring Boot DevToolsを入れると、保存したときに自動でコンパイルして実行してくれます。</p>
+<h2 id="pom"><a href="#pom" class="headerlink" title="pom"></a>pom</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">	&lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IntelliJ"><a href="#IntelliJ" class="headerlink" title="IntelliJ"></a>IntelliJ</h2><p>プロジェクトに入れるだけではダメだったので、IntelliJでは以下の設定をします。</p>
+<ol>
+<li>ファイル</li>
+<li>設定</li>
+<li>ビルド、実行、デプロイ</li>
+<li>コンパイラー<ul>
+<li>自動的にプロジェクトをビルドする　にチェックを入れる</li>
+</ul>
+</li>
+</ol>
+<h2 id="制限する生活"><a href="#制限する生活" class="headerlink" title="制限する生活"></a>制限する生活</h2><p>最近は色々制限する生活をしています。  </p>
+<ol>
+<li>平日はYouTubeを見ない<ul>
+<li>何回も見てる動画や惰性で見るのをやめました</li>
+<li>大急ぎで見る必要がある動画ってないもんね</li>
+<li>平日は見ずに、土日に見ることにしました</li>
+</ul>
+</li>
+<li>Twitterに1時間タイマーをつける<ul>
+<li>惰性で見るのをやめました</li>
+<li>でも、つい見ちゃうので制限しました</li>
+<li>見る時に急いでみる癖がつきました</li>
+</ul>
+</li>
+</ol>
+<p>ただ、見なくなった時間でニュースのコメント欄とか見ることが増えた気がするので、今コメントを表示しない設定に変えました。<br>弱い人間なので、こうやって強制するのは大事ですね。<br>後はドスケベ動画を見る時間を減らすことができれば…たられば…。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Spring/">Spring</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>8</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

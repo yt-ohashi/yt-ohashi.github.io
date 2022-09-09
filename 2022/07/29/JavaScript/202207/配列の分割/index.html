@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>配列の分割 | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="配列の分割について">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="配列の分割"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202207/配列の分割" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-07-29T13:14:15.000Z"><a href="/2022/07/29/JavaScript/202207/%E9%85%8D%E5%88%97%E3%81%AE%E5%88%86%E5%89%B2/">2022-07-29</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">配列の分割</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="現場終わり"><a href="#現場終わり" class="headerlink" title="現場終わり"></a>現場終わり</h2><p>初めての現場が今月末で終わり、来月から新しい所に配属されます。<br>そこもまた一人ですが、今度は保守案件でDBとJavaを扱うことが多いようで、また頑張りたいです。  </p>
+<h2 id="配列の分割"><a href="#配列の分割" class="headerlink" title="配列の分割"></a>配列の分割</h2><p>あまりないとは思いますが、今の現場で配列を分割してから処理することが必要になりました。<br>実際に実装したときのメモです。いつか使うかな？</p>
+<h2 id="完成イメージ"><a href="#完成イメージ" class="headerlink" title="完成イメージ"></a>完成イメージ</h2><p>こんな配列を…。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br></pre></td></tr></table></figure>
+<p>こうしたい 。5個区切りで2分割するイメージです。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[0, 1, 2, 3, 4],[5, 6, 7, 8, 9]]  </span><br></pre></td></tr></table></figure>
+<p>3個区切りの場合はこうですね。最後9が1個だけはみ出て、4分割されます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[0, 1, 2],[3, 4, 5],[6 ,7 ,8 ],[9 ]]</span><br></pre></td></tr></table></figure>
+<h2 id="使うメソッドのおさらい"><a href="#使うメソッドのおさらい" class="headerlink" title="使うメソッドのおさらい"></a>使うメソッドのおさらい</h2><h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><p>配列の要素を1つずつ取り出して、関数を実行した後、実行後の配列を返します。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4,5];</span><br><span class="line">const result = arr.map(value=&gt;value*2);//[2,4,6,8,10]</span><br></pre></td></tr></table></figure>
+
+<h3 id="slice-start-end"><a href="#slice-start-end" class="headerlink" title="slice(start,end)"></a>slice(start,end)</h3><p>指定した値を抽出した配列を返します。今回の処理のメインですね。<br>この処理を繰り返すことで実現します。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[0, 1, 2, 3].slice(0,2) // [0,1]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Math-ceil"><a href="#Math-ceil" class="headerlink" title="Math.ceil()"></a>Math.ceil()</h3><p>切り上げ。配列の要素数を決める時に使います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.ceil(10/3) //4</span><br></pre></td></tr></table></figure>
+
+<h3 id="スプレッド構文"><a href="#スプレッド構文" class="headerlink" title="スプレッド構文"></a>スプレッド構文</h3><p>配列を展開します。使わないやり方もできるけど、今回はこれを使います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 要素数5の配列を宣言　ただ、中身がemptyなのでループが回せない</span><br><span class="line">Array(5)</span><br><span class="line"></span><br><span class="line">// emptyを展開してundefinedが入る　これでループを回せる</span><br><span class="line">[...Array(5)] </span><br><span class="line"></span><br><span class="line">// kenys()は配列内のインデックスキーを配列で返す　undefinedが入っているので、[0,1,2,3,4]が出来上がる</span><br><span class="line">[...Array(5).keys()] </span><br></pre></td></tr></table></figure>
+
+<h2 id="実装"><a href="#実装" class="headerlink" title="実装"></a>実装</h2><p>まずは配列を作りましょう</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const arr = [...Array(10).keys()]; // 0,1,2,3,4,5,6,7,8,9</span><br></pre></td></tr></table></figure>
+<p>次に、区切る数と出来上がる配列の数を指定します。<br>5個ずつ区切る場合は、最終的に2分割されますね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const sliceNum = 5;</span><br><span class="line">const sliceSize = Math.ceil(arr.length/sliceNum); // 2</span><br></pre></td></tr></table></figure>
+
+<p>最終的に2個(sliceSize)の配列を作りたい。<br>mapで色々記述するとして、とりあえず2個の配列を作ることだけ…。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const sliceArray = [...Array(sliceSize).keys()].map((index)=&gt;&#123;</span><br><span class="line">    return index;</span><br><span class="line">&#125;)//[0,1]</span><br></pre></td></tr></table></figure>
+
+<p>後はメインの処理。sliceをこんな感じで使えば目的通りの配列ができそう。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr.slice(0,5) // [0,1,2,3,4]</span><br><span class="line">arr.slice(5,10) // [5,6,7,8,9]</span><br></pre></td></tr></table></figure>
+<p>といっても、絶対値で指定することはできません。<br>sliceNumで5個ずつ区切るってことは定義してるので、<br>sliceとsliceNumを組み合わせるとこんな感じですね。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr.slice(0*sliceNum , 1 * sliceNum)  // [0,1,2,3,4]</span><br><span class="line">arr.slice(1*sliceNum , 2 * sliceNum)  // [5,6,7,8,9]</span><br></pre></td></tr></table></figure>
+
+<p>mapの中でindexが0,1と渡ってくるので、それを更にそれを組み合わせることで、分割した配列の出来上がり！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const sliceArray = [...Array(sliceSize).keys()].map((index)=&gt;&#123;</span><br><span class="line">    return arr.slice(index*sliceNum , (index+1) * sliceNum);</span><br><span class="line">&#125;)//[0,1,2,3,4],[5,6,7,8,9]</span><br></pre></td></tr></table></figure>
+
+<p>ってことでまとめるとこんな感じ。<br>mapも一行なので省略できますね。せっかくなので関数にします。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const createSliceArray = (arr,sliceNum) =&gt; &#123;</span><br><span class="line">    const sliceSize = Math.ceil(arr.length/sliceNum); </span><br><span class="line">    return [...Array(sliceSize).keys()].map(index=&gt;arr.slice(index*sliceNum , (index+1) * sliceNum));</span><br><span class="line">&#125;</span><br><span class="line">const arr = [...Array(10).keys()];</span><br><span class="line">const sliceNum = 5;</span><br><span class="line">const sliceArray = createSliceArray(arr,sliceNum);</span><br><span class="line"></span><br><span class="line">//[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]</span><br></pre></td></tr></table></figure>
+
+<p>いいですねー。<br>sliceNumを3にすると、[[0, 1, 2],[3, 4, 5],[6, 7, 8],[9 ]]が出来上がります。いつかまた使う日が来るかも。  </p>
+<h2 id="余談"><a href="#余談" class="headerlink" title="余談"></a>余談</h2><p>今書き上げてdeployしてファイル閉じようとしたら、誤ってファイルを保存せずに閉じてしまった。<br>心臓止まりかけたけど、Ctrl+Zで元に戻せた。1回閉じたのに？とりあえず良かった…。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>8</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

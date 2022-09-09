@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java StreamAPI | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="JavaのStreamAPIについて">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java StreamAPI"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Java/202208/Java-StreamAPI" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-08-01T12:45:55.000Z"><a href="/2022/08/01/Java/202208/Java-StreamAPI/">2022-08-01</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Java StreamAPI</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="8月"><a href="#8月" class="headerlink" title="8月"></a>8月</h2><p>8月に入り、新しい現場にやってきました。まだ環境構築ぐらいだけど、今回もJavaとjavascriptをいじることになりそうです。<br>今回は情勢もはあって殆ど在宅みたい。通勤ないのは嬉しいね。</p>
+<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><p>Javaは学生以来殆ど書いたことないのですが、あの時習った時代からとても進化しており、Stream APIなんてものが追加されていました。<br>前回前々回と書いたmap処理みたいなことができるとのこと。<br>関数型プログラミングってやつみたいです。</p>
+<h2 id="Stream取得～中間処理～終端処理"><a href="#Stream取得～中間処理～終端処理" class="headerlink" title="Stream取得～中間処理～終端処理"></a>Stream取得～中間処理～終端処理</h2><p>Streamを使う時の流れは、以下のようになります。</p>
+<ol>
+<li>生成</li>
+<li>中間処理（filterかけたりmapしたり）</li>
+<li>終端処理（ListにしたりforEachかけたり）<br>これだけ書いてもなんのことやら・・・コードを書いた方が分かりやすいですね。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(0,1,2,3,4,5);//リストを宣言</span><br><span class="line">List&lt;Integer&gt; stream_data = data.stream() //生成</span><br><span class="line">                            .map(value-&gt;value*2) //中間処理</span><br><span class="line">                            .toList(); // 終端処理</span><br><span class="line">System.out.println(stream_data);//[0, 2, 4, 6, 8, 10]</span><br></pre></td></tr></table></figure>
+<p>生成して～map書いて～リストにする。javascriptではmapすると配列が帰ってきましたが、Streamでのmapは、Streamを返します。<br>そのため、StremをリストにするtoList()を最後に記載しています。<br>ただ、toList()で帰ってきたリストは更新ができないので、更新したい場合はこんな書き方になります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(0,1,2,3,4,5);//リストを宣言</span><br><span class="line">List&lt;Integer&gt; stream_data = data.stream() //生成</span><br><span class="line">                            .map(value-&gt;value*2) //中間処理</span><br><span class="line">                            .collect(Collectors.toList()); // 終端処理</span><br><span class="line">stream_data.set(1,3);</span><br><span class="line">System.out.println(stream_data);//[0, 3, 4, 6, 8, 10]</span><br></pre></td></tr></table></figure>
+
+<p>終端処理を変えただけ。<br>filterを組み合わせることもできます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; stream_data = data.stream() //生成</span><br><span class="line">                            .map(value-&gt;value*2) //中間処理</span><br><span class="line">                            .filter(value-&gt;value%3 == 0) //中間処理</span><br><span class="line">                            .collect(Collectors.toList()); // 終端処理</span><br><span class="line">System.out.println(stream_data);//[0, 6]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Streamを生成することと、終端処理が必要なこと以外はjavascriptと殆ど一緒なので、理解はしやすいですね。<br>今回はリストを返却しただけでしたが、終端処理にはforEach、count、max・min（InsStreamにする必要がある）等色々あります。</p>
+<h2 id="連番のリストを作る"><a href="#連番のリストを作る" class="headerlink" title="連番のリストを作る"></a>連番のリストを作る</h2><p>javascriptで連番の配列を作るとき、こんな書き方をしたらいけるよって記事を前々回書きました。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[...Array(5).keys()];</span><br><span class="line">Array(5).fill(0).map((_,index)=&gt;index);</span><br><span class="line">// 0,1,2,,3,4</span><br></pre></td></tr></table></figure>
+<p>JavaでもStreamを使うことで可能になります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; lst = IntStream.range(0,5).boxed().toList();</span><br><span class="line">System.out.println(lst);//[0,1,2,3,4]</span><br></pre></td></tr></table></figure>
+
+<p>IntStreamはStreamのint型。まずはこいつを生成します。<br>IntStreamはrangeメソッドを持っているので、値を入れて(0,1,2,3,4)を作ります。ここはjavascriptよりも分かりやすいですね。<br>次は見慣れないboxed()。IntStreamはtoList()やCollectors.toList()でリスト化できません。<br>なので、boxed()でIntStreamからStreamに変換をかけます。<br>最後にリスト化して終わり！<br>今回はリストにしただけだけど、もちろんmapと組み合わせることができます。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IntStream.rangeClosed(1,30).boxed().map(value-&gt; &#123;</span><br><span class="line">    String result = &quot;&quot;;</span><br><span class="line">    result = value % 3 == 0 &amp;&amp; value % 5 == 0 ? &quot;FizzBuzz&quot; :</span><br><span class="line">             value % 3 == 0 ? &quot;Fizz&quot; :</span><br><span class="line">             value % 5 == 0 ? &quot;Buzz&quot; :</span><br><span class="line">             value.toString();</span><br><span class="line">    return result;</span><br><span class="line">&#125;).forEach(System.out::println);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>みんな大好きFizzBuzz。rangeClosed(1,30)で指定すると、1～30が対象になります。（rangeは1～29）<br>mapの中で参考演算子もりもり書いてFizzBuzz。最後はメソッド参照でprintlnして終わり！  </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>9</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>8</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
