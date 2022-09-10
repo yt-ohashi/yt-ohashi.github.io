@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript-reduce | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="reduce">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript-reduce"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202209/javascript-reduce" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-09-10T14:58:25.000Z"><a href="/2022/09/10/JavaScript/202209/javascript-reduce/">2022-09-10</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">javascript-reduce</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">reduce</a></h2><p>ややこしくて、説明を見かけても薄目でしか見てなかったreduceの使い方のお勉強。  </p>
+<h3 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h3><p>まずは基本の所から。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr = [...<span class="title class_">Array</span>(<span class="number">10</span>).<span class="title function_">keys</span>()];<span class="comment">//[0,1,2,3,4,5,6,7,8,9]</span></span><br><span class="line">arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur</span>)=&gt;</span>(prev+cur));<span class="comment">//45</span></span><br></pre></td></tr></table></figure>
+<p>prevとcurの引数については、以下の説明があります。</p>
+<blockquote>
+<p>previousValue: 前回の callbackFn の呼び出し結果の値です。 初回の呼び出しでは initalValue が指定されていた場合はその値、そうでない場合は array[0] の値です。<br>currentValue: 現在の要素の値です。 初回の呼び出しでは initalValue が指定された場合は array[0] の値であり、そうでない場合は array[1] の値です。</p>
+</blockquote>
+<p>ってことで、prevには前回までの処理結果、curには次に呼び出す配列の値が入ります。<br>今回の処理の流れを順に追っていくとこうなります。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line"><span class="number">1</span>回目：<span class="number">0</span> + <span class="number">1</span></span><br><span class="line"><span class="number">2</span>回目：<span class="number">1</span> + <span class="number">2</span></span><br><span class="line"><span class="number">3</span>回目：<span class="number">3</span> + <span class="number">3</span></span><br><span class="line"><span class="number">4</span>回目：<span class="number">6</span> + <span class="number">4</span></span><br><span class="line"><span class="number">5</span>回目：<span class="number">10</span> + <span class="number">5</span></span><br><span class="line"><span class="number">6</span>回目：<span class="number">15</span> + <span class="number">6</span></span><br><span class="line"><span class="number">7</span>回目：<span class="number">21</span> + <span class="number">7</span></span><br><span class="line"><span class="number">8</span>回目：<span class="number">28</span> + <span class="number">8</span></span><br><span class="line"><span class="number">9</span>回目：<span class="number">36</span> + <span class="number">9</span></span><br><span class="line">戻り値：<span class="number">45</span></span><br></pre></td></tr></table></figure>
+<p>配列のsum()を作ることができました。</p>
+<h3 id="currentIndex-array"><a href="#currentIndex-array" class="headerlink" title="currentIndex,array"></a>currentIndex,array</h3><p>3つめの引数には、配列のindexが入ります。また、4つめの引数にはreduce処理を投げている配列が入ります。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [...<span class="title class_">Array</span>(<span class="number">10</span>).<span class="title function_">keys</span>()];<span class="comment">//[0,1,2,3,4,5,6,7,8,9]</span></span><br><span class="line">arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur,i,array</span>)=&gt;</span>(prev+cur+array[i]));<span class="comment">//90</span></span><br></pre></td></tr></table></figure>
+
+<p>処理の流れはこう。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line"><span class="number">1</span>回目：<span class="number">0</span> + <span class="number">1</span> + <span class="number">1</span><span class="comment">//[1]</span></span><br><span class="line"><span class="number">2</span>回目：<span class="number">2</span> + <span class="number">2</span> + <span class="number">2</span><span class="comment">//[2]</span></span><br><span class="line"><span class="number">3</span>回目：<span class="number">6</span> + <span class="number">3</span> + <span class="number">3</span><span class="comment">//[3]</span></span><br><span class="line"><span class="number">4</span>回目：<span class="number">12</span> + <span class="number">4</span> + <span class="number">4</span><span class="comment">//[4]</span></span><br><span class="line"><span class="number">5</span>回目：<span class="number">20</span> + <span class="number">5</span> + <span class="number">5</span><span class="comment">//[5]</span></span><br><span class="line"><span class="number">6</span>回目：<span class="number">30</span> + <span class="number">6</span> + <span class="number">6</span><span class="comment">//[6]</span></span><br><span class="line"><span class="number">7</span>回目：<span class="number">42</span> + <span class="number">7</span> + <span class="number">7</span><span class="comment">//[7]</span></span><br><span class="line"><span class="number">8</span>回目：<span class="number">56</span> + <span class="number">8</span> + <span class="number">8</span><span class="comment">//[8]</span></span><br><span class="line"><span class="number">9</span>回目：<span class="number">72</span> + <span class="number">9</span> + <span class="number">9</span><span class="comment">//[9]</span></span><br><span class="line">戻り値：<span class="number">90</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="initialValue"><a href="#initialValue" class="headerlink" title="initialValue"></a>initialValue</h3><p>reduceでは初期値を指定することができます。指定しない場合は、上記のように配列の最初の要素が初期値になります。<br>指定する場合はこう。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [...<span class="title class_">Array</span>(<span class="number">10</span>).<span class="title function_">keys</span>()];<span class="comment">//[0,1,2,3,4,5,6,7,8,9]</span></span><br><span class="line">arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur</span>)=&gt;</span>(prev+cur),<span class="number">10</span>);<span class="comment">//55</span></span><br></pre></td></tr></table></figure>
+
+<p>ちなみに、初期値がある場合はcurrentIndexのスタートも0になるみたいですね。</p>
+<h3 id="sum関数、max関数"><a href="#sum関数、max関数" class="headerlink" title="sum関数、max関数"></a>sum関数、max関数</h3><p>配列.sum()を作ることができたので、配列.max()を作ってみます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">getMax</span> = (<span class="params">arr</span>) =&gt; arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur</span>)=&gt;</span>prev&gt;cur ? prev : cur);</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getSum</span> = (<span class="params">arr</span>) =&gt; arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur</span>)=&gt;</span>(prev+cur));</span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">94</span>,<span class="number">2</span>,<span class="number">44</span>,<span class="number">6</span>,<span class="number">22</span>,<span class="number">4</span>,<span class="number">100</span>,<span class="number">77</span>];</span><br><span class="line"><span class="title function_">getMax</span>(arr);<span class="comment">//100</span></span><br><span class="line"><span class="title function_">getSum</span>(arr);<span class="comment">//349</span></span><br></pre></td></tr></table></figure>
+
+<p>前より理解することができました。複雑な処理も作れそうですね。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>10</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>8</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>11</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
