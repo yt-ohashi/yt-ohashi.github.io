@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>typescript-型ガード | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="型ガード">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="typescript-型ガード"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-typescript/202209/typescript-型ガード" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-09-18T13:38:07.000Z"><a href="/2022/09/18/typescript/202209/typescript-%E5%9E%8B%E3%82%AC%E3%83%BC%E3%83%89/">2022-09-18</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">typescript-型ガード</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="型を守る"><a href="#型を守る" class="headerlink" title="型を守る"></a>型を守る</h2><p>昨日書いたこの type。age はあるかどうかわかりません。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Human</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> | <span class="string">&quot;W&quot;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>age が 12 以下ならキッズだと判断する場合、以下のように書きたいですが、エラーになっちゃいます。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">chkKids</span> = (<span class="params">param: Human</span>) =&gt; param.<span class="property">age</span> &lt;= <span class="number">12</span>;</span><br><span class="line"><span class="comment">//TS2532: Object is possibly &#x27;undefined&#x27;.</span></span><br></pre></td></tr></table></figure>
+
+<p>undefined かもしれんから比較できませんやんって言ってきます。<br>キッズチェックをする前に、型の絞り込みを行う必要があります。ガードガード。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">chkKids</span> = (<span class="params">param: Human</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> param.<span class="property">age</span> === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> param.<span class="property">age</span> &lt;= <span class="number">12</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">13</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">12</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>number 以外をチェックし、即 return をしてもガードがかけられます。<br>number 以外で return したら 後は number しかないからね。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">chkKids</span> = (<span class="params">param: Human</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> param.<span class="property">age</span> !== <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> param.<span class="property">age</span> &lt;= <span class="number">12</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">13</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">12</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>ただ、これぐらいなら三項演算子でもできますね。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">chkKids</span> = (<span class="params">param: Human</span>) =&gt;</span><br><span class="line">  <span class="keyword">typeof</span> param.<span class="property">age</span> !== <span class="string">&quot;number&quot;</span> ? <span class="literal">false</span> : param.<span class="property">age</span> &lt;= <span class="number">12</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">13</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">12</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ユーザ定義の型ガード"><a href="#ユーザ定義の型ガード" class="headerlink" title="ユーザ定義の型ガード"></a>ユーザ定義の型ガード</h2><p>type で定義した型は、typeof で判断できません。<br>上記の Human 型かどうか判断するためには、ユーザ定義の型ガードを使います。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isHuman = (<span class="attr">human</span>: <span class="built_in">object</span>): human is <span class="title class_">Human</span> =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> h = human <span class="keyword">as</span> <span class="title class_">Human</span>;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="keyword">typeof</span> h?.<span class="property">name</span> === <span class="string">&quot;string&quot;</span> &amp;&amp;</span><br><span class="line">    <span class="keyword">typeof</span> h?.<span class="property">sex</span> === <span class="string">&quot;string&quot;</span> &amp;&amp;</span><br><span class="line">    (<span class="keyword">typeof</span> h?.<span class="property">age</span> === <span class="string">&quot;number&quot;</span> || <span class="keyword">typeof</span> h?.<span class="property">age</span> === <span class="string">&quot;undefined&quot;</span>)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isHuman</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">13</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isHuman</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">12</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isHuman</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isHuman</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span> &#125;)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>human is Human の部分。この関数の型が true を返した場合、この引数は Human だよって絞り込んでくれます。<br>return で true を返すには、Human 型をそれぞれチェックをかかける必要がありますが、human?.name でチェックすることはできません。<br>引数 human には name があるか判断できないから。<br>ってことで、これは Human 型なんやでぇ！と強制的にキャストする<a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions">型アサーション</a>(<a target="_blank" rel="noopener" href="https://typescript-jp.gitbook.io/deep-dive/type-system/type-assertion">Deep Dive</a>)を使っています。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> h = human <span class="keyword">as</span> <span class="title class_">Human</span>;</span><br></pre></td></tr></table></figure>
+
+<p>これでコンパイラに認識させることができたので、それぞれの型をチェックして return。これで Human 型かどうかを確かめる関数ができました。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Human</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> | <span class="string">&quot;W&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isHuman = (<span class="attr">human</span>: <span class="built_in">object</span>): human is <span class="title class_">Human</span> =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> h = human <span class="keyword">as</span> <span class="title class_">Human</span>;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="keyword">typeof</span> h?.<span class="property">name</span> === <span class="string">&quot;string&quot;</span> &amp;&amp;</span><br><span class="line">    <span class="keyword">typeof</span> h?.<span class="property">sex</span> === <span class="string">&quot;string&quot;</span> &amp;&amp;</span><br><span class="line">    (<span class="keyword">typeof</span> h?.<span class="property">age</span> === <span class="string">&quot;number&quot;</span> || <span class="keyword">typeof</span> h?.<span class="property">age</span> === <span class="string">&quot;undefined&quot;</span>)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">chkKids</span> = (<span class="params">param: <span class="built_in">object</span></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="title function_">isHuman</span>(param)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> param.<span class="property">age</span> !== <span class="string">&quot;number&quot;</span> ? <span class="literal">false</span> : param.<span class="property">age</span> &lt;= <span class="number">12</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">13</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">age</span>: <span class="number">12</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span>, <span class="attr">sex</span>: <span class="string">&quot;M&quot;</span> &#125;)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">chkKids</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;a&quot;</span> &#125;)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>chkKids の引数を object で受け取りましたが、isHuman で Human 型に絞り込んでいるので、キッズチェックをすることができます。<br>終わり！</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/typescript/">typescript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>12</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>3</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>9</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>13</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
