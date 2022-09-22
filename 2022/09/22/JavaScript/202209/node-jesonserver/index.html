@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>node-jesonserver | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="jesonserver">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="node-jesonserver"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202209/node-jesonserver" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-09-22T13:55:05.000Z"><a href="/2022/09/22/JavaScript/202209/node-jesonserver/">2022-09-22</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">node-jesonserver</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="モックサーバー"><a href="#モックサーバー" class="headerlink" title="モックサーバー"></a>モックサーバー</h2><p>6,7 月頃、jsonserver でテスト用のサーバを立てて開発をしていました。<br>ふと思い出したけど全然覚えてなかったのでおまとめ。</p>
+<h2 id="jesonserver"><a href="#jesonserver" class="headerlink" title="jesonserver"></a><a target="_blank" rel="noopener" href="https://github.com/typicode/json-server">jesonserver</a></h2><h3 id="インストール"><a href="#インストール" class="headerlink" title="インストール"></a>インストール</h3><p>公式そのままに。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g json-server</span><br></pre></td></tr></table></figure>
+
+<h3 id="データファイル"><a href="#データファイル" class="headerlink" title="データファイル"></a>データファイル</h3><p>jsonserver は json ファイルに返却するデータを書きます。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;posts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;json-server&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typicode&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span> <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;json-server2&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typicode2&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;comments&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span> <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="string">&quot;some comment&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;postId&quot;</span><span class="punctuation">:</span> <span class="number">1</span> <span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;profile&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typicode&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>こんなファイルだと、localhost&#x2F;posts に GET を投げると posts の中に書いたデータが返ってきます。<br>また、id を書くと localhost&#x2F;posts&#x2F;1 で指定した id のデータのみが返ってきます。</p>
+<h3 id="起動"><a href="#起動" class="headerlink" title="起動"></a>起動</h3><p>デフォルトだとポートは 3000 を使います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json-server --watch db.json</span><br></pre></td></tr></table></figure>
+
+<p>ポートをかえる場合はこう</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json-server --watch db.json --port 3004</span><br></pre></td></tr></table></figure>
+
+<h3 id="GET-してみる"><a href="#GET-してみる" class="headerlink" title="GET してみる"></a>GET してみる</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:<span class="number">3000</span>/posts/</span><br><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">1</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>id 指定</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:<span class="number">3000</span>/posts/<span class="number">2</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">  &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="GET-偽装"><a href="#GET-偽装" class="headerlink" title="GET 偽装"></a>GET 偽装</h3><p>jsonserver に POST を投げると、データが更新されます。<br>前使っていた時はこれだと非常に都合が悪かったので、middlewares ファイルを作成して POST を投げたときは GET に偽装していました。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (req.<span class="property">method</span> === <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    req.<span class="property">method</span> = <span class="string">&quot;GET&quot;</span>;</span><br><span class="line">    req.<span class="property">url</span> += req.<span class="property">body</span>.<span class="property">id</span> ? req.<span class="property">body</span>.<span class="property">id</span> : <span class="string">&quot;&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">next</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>POST のパラメータに id を含めていたので、url に id を追加しています。</p>
+<p>実行するときはこう。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json-server --watch db.json --middlewares ./middle.js</span><br></pre></td></tr></table></figure>
+
+<p>パラメータ無しで post</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://localhost:<span class="number">3000</span>/posts/</span><br><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">1</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>パラメータ付き</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -d &quot;id=<span class="number">2</span>&quot; http://localhost:<span class="number">3000</span>/posts/</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">  &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/node/">node</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>12</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>2</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>3</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>10</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>15</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
