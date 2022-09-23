@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript-fetch-post | おはしブログ</title>
+  <meta name="author" content="ohashi">
+  
+  <meta name="description" content="fetch-post">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript-fetch-post"/>
+  <meta property="og:site_name" content="おはしブログ"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">おはしブログ</a></h1>
+  <h2><a href="/">何かを書きます</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JavaScript/202209/javascript-fetch-post" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-09-23T08:46:44.000Z"><a href="/2022/09/23/JavaScript/202209/javascript-fetch-post/">2022-09-23</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">javascript-fetch-post</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="後回し"><a href="#後回し" class="headerlink" title="後回し"></a>後回し</h2><p>8 月ごろに<a href="https://yt-ohashi.github.io/2022/08/20/JavaScript/202208/javascript-fetch-GET/">Fetch API の GET</a>について書きました。その時、明日は POST について書くって言いながら何故か後回しにしていました。<br>jsonserver について書いたら思い出したので今日書きます。</p>
+<h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/API/Fetch_API/Using_Fetch">Fetch API</a></h2><p>昨日 jsonserver で立てたものもをそのまま使用します。</p>
+<p>パラメータ無しで POST</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://localhost:<span class="number">3000</span>/posts/</span><br><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">1</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">    &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>パラメータ付き</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -d &quot;id=<span class="number">2</span>&quot; http://localhost:<span class="number">3000</span>/posts/</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: <span class="number">2</span>,</span><br><span class="line">  &quot;<span class="built_in">title</span>&quot;: &quot;json-server2&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;typicode2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Fetch を使って取得する場合はこんな感じ。<br>別で id を入れるテキストボックスと、送信ボタンがある html ファイルを作っています。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">post</span> = (<span class="params">url, param</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">fetch</span>(url, &#123;</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">    <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(param),</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!res.<span class="property">ok</span>) <span class="keyword">throw</span> <span class="title class_">Error</span>();</span><br><span class="line">      <span class="keyword">return</span> res.<span class="title function_">json</span>();</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function">(<span class="params">error</span>) =&gt;</span> <span class="string">&quot;エラーが発生しました&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getPosts</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> url = <span class="string">&quot;http://localhost:3000/posts/&quot;</span>;</span><br><span class="line">  <span class="keyword">const</span> id = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#id&quot;</span>).<span class="property">value</span>;</span><br><span class="line">  <span class="keyword">const</span> param = &#123; id &#125;;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">await</span> <span class="title function_">post</span>(url, param));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> postSubmit = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#post&quot;</span>);</span><br><span class="line">postSubmit.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, getPosts);</span><br></pre></td></tr></table></figure>
+
+<p>実行結果はこんな感じ。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//id1で送信</span></span><br><span class="line">&#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">title</span>: <span class="string">&#x27;json-server&#x27;</span>, <span class="attr">author</span>: <span class="string">&#x27;typicode&#x27;</span>&#125;</span><br><span class="line"><span class="comment">//id2で送信</span></span><br><span class="line">&#123;<span class="attr">id</span>: <span class="number">2</span>, <span class="attr">title</span>: <span class="string">&#x27;json-server2&#x27;</span>, <span class="attr">author</span>: <span class="string">&#x27;typicode2&#x27;</span>&#125;</span><br><span class="line"><span class="comment">//パラメータ無しで送信</span></span><br><span class="line">(<span class="number">2</span>) [&#123;…&#125;, &#123;…&#125;]</span><br><span class="line"><span class="number">0</span>: &#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">title</span>: <span class="string">&#x27;json-server&#x27;</span>, <span class="attr">author</span>: <span class="string">&#x27;typicode&#x27;</span>&#125;</span><br><span class="line"><span class="number">1</span>: &#123;<span class="attr">id</span>: <span class="number">2</span>, <span class="attr">title</span>: <span class="string">&#x27;json-server2&#x27;</span>, <span class="attr">author</span>: <span class="string">&#x27;typicode2&#x27;</span>&#125;</span><br><span class="line"><span class="comment">//id3で送信※404</span></span><br><span class="line">エラーが発生しました</span><br></pre></td></tr></table></figure>
+
+<h2 id="post"><a href="#post" class="headerlink" title="post"></a>post</h2><p>fetch の第 2 引数には色々設定を付与することができます。<br>第 2 引数がない場合は GET で投げられるので、POST の場合は第 2 引数で色々設定していきます。<br>もちろん、GET でも認証情報を送る場合等、必要な場合は第二引数を設定します。</p>
+<h3 id="method"><a href="#method" class="headerlink" title="method"></a>method</h3><p>method: “POST”の部分。見たままですが、メソッドを POST で指定しています。</p>
+<h3 id="body"><a href="#body" class="headerlink" title="body"></a>body</h3><p>body: JSON.stringify(param)の部分。ここも見たままですが、POST で送るパラメータを設定します。</p>
+<h3 id="headers"><a href="#headers" class="headerlink" title="headers: {}"></a>headers: {}</h3><p>ヘッダー情報を付与することもできます。今回は application&#x2F;json だけ。<br>他にも、ベーシック認証が必要な場合等もここに書いていくことになります。</p>
+<h3 id="その他"><a href="#その他" class="headerlink" title="その他"></a>その他</h3><p>他の部分は GET の時とほとんど変わりません。エラーがあったらエラーテキストを投げ、正常な場合は res.json()で結果を返しています。</p>
+<h3 id="色々なパラメータ"><a href="#色々なパラメータ" class="headerlink" title="色々なパラメータ"></a>色々なパラメータ</h3><p>その他にも色々設定することができます。<br>ブラウザの認証情報を一緒に投げる credentials や、cache の設定等、必要なものを追加していきましょう。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">コメント</h1>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="検索">
+    <input type="hidden" name="as_sitesearch" value="yt-ohashi.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">タグ</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>13</small></li>
+  
+    <li><a href="/tags/node/">node</a><small>2</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>3</small></li>
+  
+    <li><a href="/tags/wsl/">wsl</a><small>1</small></li>
+  
+    <li><a href="/tags/%E6%A0%AA/">株</a><small>10</small></li>
+  
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>15</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 ohashi
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
