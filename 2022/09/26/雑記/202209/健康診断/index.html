@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>spring-mysqlのtimezoneエラー | おはしブログ</title>
+  <title>健康診断 | おはしブログ</title>
   <meta name="author" content="ohashi">
   
-  <meta name="description" content="The server time zone value  is unrecognized or represents more than one time zone.">
+  <meta name="description" content="年に1回の自己確認">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="spring-mysqlのtimezoneエラー"/>
+  <meta property="og:title" content="健康診断"/>
   <meta property="og:site_name" content="おはしブログ"/>
 
   
@@ -46,28 +46,25 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring/202208/spring-mysqlのtimezoneエラー" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-雑記/202209/健康診断" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2022-08-21T06:26:41.000Z"><a href="/2022/08/21/Spring/202208/spring-mysql%E3%81%AEtimezone%E3%82%A8%E3%83%A9%E3%83%BC/">2022-08-21</a></time>
+        <time class="dt-published" datetime="2022-09-26T13:06:37.000Z"><a href="/2022/09/26/%E9%9B%91%E8%A8%98/202209/%E5%81%A5%E5%BA%B7%E8%A8%BA%E6%96%AD/">2022-09-26</a></time>
       
       
   
-    <h1 class="p-name title" itemprop="headline name">spring-mysqlのtimezoneエラー</h1>
+    <h1 class="p-name title" itemprop="headline name">健康診断</h1>
   
 
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h2 id="timezoneエラー"><a href="#timezoneエラー" class="headerlink" title="timezoneエラー"></a>timezoneエラー</h2><p>SpringでMySQLに接続するとき、下記のエラーが出力されることがある。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The server time zone value &#x27; (W)&#x27; is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support.</span><br></pre></td></tr></table></figure>
+        <h2 id="健康診断"><a href="#健康診断" class="headerlink" title="健康診断"></a>健康診断</h2><p>健康診断がありました。体重計持ってないので、年 1 回ここで体重が分かります。<br>結果、63kg で特に変化なし。高校でダイエットしてから大体 60kg ～ 65kg の間でおさまっています。<br>ここ 5 年ぐらいはずっと 63kg なんじゃなかろうか。<br>今ランニングやダッシュをしているのも、ダイエットではなくて今の体重のままいっぱい食べていっぱい動けるようになるのが目的です。<br>このままできる限り体系は維持していこうと思います。</p>
+<h2 id="大きな調整"><a href="#大きな調整" class="headerlink" title="大きな調整"></a>大きな調整</h2><p>今日は指数が大きく調整しました。主力のリックソフトもかなり売られました。<br>売られ方があまり良くなく、大きく買っている人がズドンズドンと売っている感じです。<br>これまではちょこちょこ売られてもまとまった買いがドカッと入っていたイメージでしたが、今日は逆の動きをしていました。こういう売られ方をすると、その後も売り切られるまでずるずる下がっていくことが多いです。<br>ということで、少し利確して相対的に強くてまとまった売りが出ていなかった、鎌倉新書の量を増やしました。<br>今日はそれが功を奏していましたが、それでも 20%近く持っているので結構影響が大きいです。<br>逆指値を結構引き上げたので、明日も似たような動きだと全て売ることになるかもしれません。<br>今日年初来マイ転しましたが、今年はこの逃げのおかげで年初来は-0.8%ぐらいに留まっているので、頭を切り替えてまた戦っていきたいです。</p>
 
-<p> デフォルトのtimezoneは受けてつけてないからちゃんと指定しろってことかな？</p>
-<h2 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h2><p>application.propatiesの記載を修正し、serverTimezoneを設定する</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost/database?serverTimezone=JST</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -76,7 +73,7 @@
         
   
   <div class="tags">
-    <a href="/tags/Spring/">Spring</a>
+    <a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a>
   </div>
 
         
