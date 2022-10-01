@@ -45,6 +45,44 @@
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
+  <article id="post-Java/202210/Java-MapでStream" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-10-01T13:34:53.000Z"><a href="/2022/10/01/Java/202210/Java-Map%E3%81%A7Stream/">2022-10-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2022/10/01/Java/202210/Java-Map%E3%81%A7Stream/">Java-MapでStream</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="10-月案件"><a href="#10-月案件" class="headerlink" title="10 月案件"></a>10 月案件</h2><p>10 月の開発で Map を色々触るような気がします。<br>まだ要件定義の段階なので分かりませんが、前もって Map で Stream を使う練習を。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Studay</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;String&gt; checkList = Arrays.asList(<span class="string">&quot;ohasi&quot;</span>,<span class="string">&quot;osusi&quot;</span>,<span class="string">&quot;oisi&quot;</span>);</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, String&gt;() &#123;</span><br><span class="line">            &#123;</span><br><span class="line">                put(<span class="string">&quot;osasimi&quot;</span>, <span class="string">&quot;1&quot;</span>);</span><br><span class="line">                put(<span class="string">&quot;ohasi&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">                put(<span class="string">&quot;osusi&quot;</span>, <span class="string">&quot;3&quot;</span>);</span><br><span class="line">                put(<span class="string">&quot;omikosi&quot;</span>, <span class="string">&quot;3&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String&gt; getMap = map.entrySet().stream()</span><br><span class="line">                .filter(v-&gt;checkList.contains(v.getKey()))</span><br><span class="line">                .collect(Collectors.toMap(v-&gt;v.getKey(),v-&gt;v.getValue()));</span><br><span class="line"></span><br><span class="line">        System.out.println(getMap);<span class="comment">//&#123;ohasi=2, osusi=3&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>そこまで難しい処理はしていません。<br>Map と検索用の List を作って、List に含まれる Key だけを抽出した Map を作っています。</p>
+<h2 id="entrySet"><a href="#entrySet" class="headerlink" title="entrySet()"></a><a target="_blank" rel="noopener" href="https://sun.ac.jp/prof/yamagu/java8docs/api/java/util/Map.html#entrySet--">entrySet()</a></h2><p>ポイントはここ。Map から直接 Stream は使えないので、entrySet()で Map の全要素を Set で取得します。<br>中身はこんな感じで入っています。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Map&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, String&gt;() &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        put(<span class="string">&quot;osasimi&quot;</span>, <span class="string">&quot;1&quot;</span>);</span><br><span class="line">        put(<span class="string">&quot;ohasi&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">        put(<span class="string">&quot;osusi&quot;</span>, <span class="string">&quot;3&quot;</span>);</span><br><span class="line">        put(<span class="string">&quot;omikosi&quot;</span>, <span class="string">&quot;3&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">System.out.println(map.entrySet());<span class="comment">//[osasimi=1, ohasi=2, osusi=3, omikosi=3]</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   <article id="post-株/202209/9月の成績" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
@@ -369,42 +407,6 @@
 
 
 
-  <article id="post-株/202209/四季報が届いた" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2022-09-21T13:27:29.000Z"><a href="/2022/09/21/%E6%A0%AA/202209/%E5%9B%9B%E5%AD%A3%E5%A0%B1%E3%81%8C%E5%B1%8A%E3%81%84%E3%81%9F/">2022-09-21</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2022/09/21/%E6%A0%AA/202209/%E5%9B%9B%E5%AD%A3%E5%A0%B1%E3%81%8C%E5%B1%8A%E3%81%84%E3%81%9F/">四季報が届いた</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        四季報が届いた
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2022/09/21/%E6%A0%AA/202209/%E5%9B%9B%E5%AD%A3%E5%A0%B1%E3%81%8C%E5%B1%8A%E3%81%84%E3%81%9F/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -430,6 +432,8 @@
   <ul class="entry">
   
     <li><a href="/tags/Java/">Java</a><small>7</small></li>
+  
+    <li><a href="/tags/Map%E3%81%A7Stream/">MapでStream</a><small>1</small></li>
   
     <li><a href="/tags/Spring/">Spring</a><small>8</small></li>
   
