@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>おはしブログ</title>
+  <title>色んな対応 | おはしブログ</title>
   <meta name="author" content="ohashi">
   
-  <meta name="description" content="雑記
-技術
-投資">
+  <meta name="description" content="PF管理">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="色んな対応"/>
   <meta property="og:site_name" content="おはしブログ"/>
 
   
@@ -48,27 +46,23 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-雑記/202210/tag/index" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-雑記/202212/色んな対応" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2022-07-27T13:23:43.569Z"><a href="/2022/07/27/%E9%9B%91%E8%A8%98/202210/tag/index/">2022-07-27</a></time>
+        <time class="dt-published" datetime="2022-12-04T14:45:19.000Z"><a href="/2022/12/04/%E9%9B%91%E8%A8%98/202212/%E8%89%B2%E3%82%93%E3%81%AA%E5%AF%BE%E5%BF%9C/">2022-12-04</a></time>
       
       
   
-    <h1 class="p-name title" itemprop="headline name"></h1>
+    <h1 class="p-name title" itemprop="headline name">色んな対応</h1>
   
 
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <ul>
-<li><a href="https://yt-ohashi.github.io/tags/%E9%9B%91%E8%A8%98/">雑記</a></li>
-<li><a href="https://yt-ohashi.github.io/tags/%E6%8A%80%E8%A1%93/">技術</a></li>
-<li><a href="https://yt-ohashi.github.io/tags/%E6%8A%95%E8%B3%87/">投資</a></li>
-</ul>
+        <h2 id="開発"><a href="#開発" class="headerlink" title="開発"></a>開発</h2><p>今日は昨日の筋肉痛もあったので、一歩も外に出ず PF 管理アプリの開発やらゲームやらしていました。<br>前回は mongoDB にデータを全部放り込んでから、取り出すときに色々加工しながらやるってやり方をしていましたが、今回は加工した後に sqlite3 へ放り込む方針でやっています。<br>その際、現物、信用、現引き、現渡、IPO、分割と色々処理が必要でこれが中々面倒。色んな取引しとった…。<br>分割対応で少し沼にはまりましたが。<br>理由は証券会社から落とした取引履歴で、分割日に購入したものが「分割 ⇒ 現物買」の順番で並んでいたから。<br>まだ買ってないものを分割対応しようとしてエラーをはいていました。<br>レアケースなはず…ということでこれは CSV を修正して終了<br>とりあえず、現物取引にかかわるものは対応したので、今日時点の PF が取れるようになりました。<br>信用の前に現物で株価取得とプロットできるようにするのを先にやろうかな。今の所信用を使う予定ないし。</p>
 
       
     </div>
@@ -76,6 +70,11 @@
       
         
         
+  
+  <div class="tags">
+    <a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
@@ -121,7 +120,7 @@
   
     <li><a href="/tags/%E6%A0%AA/">株</a><small>48</small></li>
   
-    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>46</small></li>
+    <li><a href="/tags/%E9%9B%91%E8%A8%98/">雑記</a><small>47</small></li>
   
     <li><a href="/tags/%E9%9B%91%E8%A8%98-%E6%A0%AA/">雑記 株</a><small>1</small></li>
   
